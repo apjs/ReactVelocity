@@ -1,2 +1,1 @@
-# apjs
-our react prototyping tool
+# ReactVelocity
