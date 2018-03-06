@@ -13,6 +13,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
+import Tree from './tree';
 
 const style = {
   margin: 12,
@@ -40,13 +41,20 @@ class Webpage extends Component {
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.buttonCall = this.buttonCall.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   //Toggle = Drawer
   handleToggle(){this.setState({open: !this.state.open})};
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
-  buttonCall(){console.log('kausbdfkasndfdlsinfas')};
+  buttonCall(){console.log(this.refs.myField.getValue())};
+  handleKeyPress(event){
+    if(event.key === 'Enter') {
+      console.log(this.refs.myField.getValue());
+    }
+  }
+
 
   render() {
     return (
@@ -61,6 +69,7 @@ class Webpage extends Component {
             </div>
             }
         />
+        <Tree />
         <Drawer
           docked={false}
           width={200}
@@ -101,7 +110,7 @@ class Webpage extends Component {
           </Card>
           <Card>
             <CardActions>  
-              <TextField floatingLabelText="Child"/>
+              <TextField floatingLabelText="Child" ref="myField" onKeyPress={this.handleKeyPress}/>
             </CardActions>
             <RaisedButton label="Add Child" onClick ={this.buttonCall} style={style} />
           </Card> 
