@@ -14,6 +14,9 @@ import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
 
+const style = {
+  margin: 12,
+};
 
 const styles = {
     //Radio Button
@@ -36,12 +39,14 @@ class Webpage extends Component {
     this.state = {open: false,};
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.buttonCall = this.buttonCall.bind(this);
   }
 
   //Toggle = Drawer
   handleToggle(){this.setState({open: !this.state.open})};
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
+  buttonCall(){console.log('kausbdfkasndfdlsinfas')};
 
   render() {
     return (
@@ -98,6 +103,7 @@ class Webpage extends Component {
             <CardActions>  
               <TextField floatingLabelText="Child"/>
             </CardActions>
+            <RaisedButton label="Add Child" onClick ={this.buttonCall} style={style} />
           </Card> 
         </Drawer>
       </div>
@@ -106,7 +112,4 @@ class Webpage extends Component {
 }
 
 export default Webpage;
-
-
-
 
