@@ -63,7 +63,15 @@ class Tree extends Component {
     this.state = {
       treeData: [{ title: 'App'}],
     };
+    this.onButtonPress = this.onButtonPress.bind(this);
   }
+
+  onButtonPress(){ this.setState(state => ({
+      treeData: state.treeData.concat({
+        title: 'goddamnit',
+      }),
+    }))
+  };
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
@@ -71,32 +79,13 @@ class Tree extends Component {
       firstNames[Math.floor(Math.random() * firstNames.length)];
     return (
       <div>
-        <Webpage />
+        <Webpage onButtonPress={this.onButtonPress} />
         <div style={{ height: 300 }}>
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
             generateNodeProps={({ node, path }) => ({
               buttons: [
-                <button
-                  onClick={() =>
-                    this.setState(state => ({
-                      treeData: addNodeUnderParent({
-                        treeData: state.treeData,
-                        parentKey: path[path.length - 1],
-                        expandParent: true,
-                        getNodeKey,
-                        newNode: {
-                          title: `${getRandomName()} ${
-                            node.title.split(' ')[0]
-                          }sson`,
-                        },
-                      }).treeData,
-                    }))
-                  }
-                >
-                  Add Child
-                </button>,
                 <button
                   onClick={() =>
                     this.setState(state => ({
@@ -119,7 +108,7 @@ class Tree extends Component {
           onClick={() =>
             this.setState(state => ({
               treeData: state.treeData.concat({
-                title: `${getRandomName()} ${getRandomName()}sson`,
+                title: 'goddamnit',
               }),
             }))
           }

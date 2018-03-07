@@ -43,7 +43,7 @@ class Webpage extends Component {
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
-    this.onButtonPress = this.onButtonPress.bind(this);
+    // this.onButtonPress = this.onButtonPress.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
   }
 
@@ -56,7 +56,7 @@ class Webpage extends Component {
       textFieldValue: e.target.value,
     });
   }
-  onButtonPress(){console.log(this.state.textFieldValue)};
+  
   onKeyPress(e) {
     if(e.key == 'Enter') {
       console.log(this.state.textFieldValue)
@@ -125,7 +125,7 @@ class Webpage extends Component {
             <RaisedButton 
               label="Add Child" 
               style={style} 
-              onClick={this.onButtonPress} />
+              onClick={this.props.onButtonPress} />
           </Card> 
         </Drawer>
       </div>
