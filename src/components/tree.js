@@ -60,7 +60,7 @@ class Tree extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ title: 'Peter Olofsson', children: [{ title: 'Egg', children: [{ title: 'Egg' }]}] }, { title: 'Karl Johansson' }],
+      treeData: [{ title: 'App'}],
     };
   }
 
