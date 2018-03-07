@@ -1,4 +1,6 @@
 .DS_STORE
+Thumbs.db
+.Trashes
 node_modules
 package-lock.json
 build
