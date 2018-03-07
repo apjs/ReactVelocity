@@ -13,7 +13,11 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
+import { paul, scott } from '../../generateContent';
+import JSZip from 'jszip';
+const zip = new JSZip();
 import Tree from './tree';
+
 
 const style = {
   margin: 12,
@@ -37,6 +41,7 @@ class Webpage extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       open: false,
       textFieldValue: '',
@@ -46,12 +51,27 @@ class Webpage extends Component {
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.handleExport = this.handleExport.bind(this);
   }
 
   //Toggle = Drawer
   handleToggle(){this.setState({open: !this.state.open})};
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
+
+  handleExport(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(paul);
+    zip.file('paul.js', paul);
+    zip.generateAsync({type:"base64"}).then(function (base64) {
+    location.href="data:application/zip;base64," + base64;
+});
+
+
+  }
+
+
   handleTextFieldChange(e){
     this.setState({
       textFieldValue: e.target.value,
@@ -64,6 +84,7 @@ class Webpage extends Component {
     }
   }
   
+
   render() {
     return (
       <div>
@@ -73,7 +94,7 @@ class Webpage extends Component {
             <div>
               <FlatButton label="Save" />
               <FlatButton label="Load" />
-              <FlatButton label="Export" />
+              <FlatButton onClick={this.handleExport} label="Export" />
             </div>
             }
         />
@@ -117,6 +138,7 @@ class Webpage extends Component {
             </CardActions>
           </Card>
           <Card>
+
             <CardActions>  
               <TextField 
                 floatingLabelText="Child" 
@@ -136,4 +158,3 @@ class Webpage extends Component {
 }
 
 export default Webpage;
-
