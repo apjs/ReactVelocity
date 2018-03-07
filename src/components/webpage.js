@@ -13,9 +13,10 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
-import { paul, scott } from '../../generateContent';
+var paul = require('../../generateContent');
 import JSZip from 'jszip';
 const zip = new JSZip();
+
 
 const style = {
   margin: 12,
@@ -52,17 +53,14 @@ class Webpage extends Component {
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
   buttonCall(){console.log('kausbdfkasndfdlsinfas')};
+
   handleExport(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log(paul);
-    zip.file('paul.js', paul);
+    const contents = generateCode();
+    zip.file('paul.js', contents, {base64: false});
     zip.generateAsync({type:"base64"}).then(function (base64) {
     location.href="data:application/zip;base64," + base64;
-});
-
-
-  }
+  });
+}
 
   render() {
     return (
