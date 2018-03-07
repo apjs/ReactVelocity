@@ -13,7 +13,6 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
-import Tree from './tree';
 
 const style = {
   margin: 12,
@@ -77,7 +76,6 @@ class Webpage extends Component {
             </div>
             }
         />
-        <Tree />
         <Drawer
           docked={false}
           width={200}

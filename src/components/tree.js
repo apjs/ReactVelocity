@@ -2,6 +2,7 @@ import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
 import React, { Component } from 'react';
 import SortableTree, { addNodeUnderParent, removeNodeAtPath } from 'react-sortable-tree';
+import Webpage from './webpage';
 
 
 const firstNames = [
@@ -70,6 +71,7 @@ class Tree extends Component {
       firstNames[Math.floor(Math.random() * firstNames.length)];
     return (
       <div>
+        <Webpage />
         <div style={{ height: 300 }}>
           <SortableTree
             treeData={this.state.treeData}
