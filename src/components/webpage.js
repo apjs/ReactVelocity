@@ -38,30 +38,17 @@ class Webpage extends Component {
     super(props);
     this.state = {
       open: false,
-      textFieldValue: '',
+      // textFieldValue: '',
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
-    // this.onButtonPress = this.onButtonPress.bind(this);
-    this.onKeyPress = this.onKeyPress.bind(this);
   }
 
   //Toggle = Drawer
   handleToggle(){this.setState({open: !this.state.open})};
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
-  handleTextFieldChange(e){
-    this.setState({
-      textFieldValue: e.target.value,
-    });
-  }
-  
-  onKeyPress(e) {
-    if(e.key == 'Enter') {
-      console.log(this.state.textFieldValue)
-    }
-  }
+ 
   
   render() {
     return (
@@ -118,9 +105,9 @@ class Webpage extends Component {
             <CardActions>  
               <TextField 
                 floatingLabelText="Child" 
-                value={this.state.textFieldValue} 
-                onChange={this.handleTextFieldChange}
-                onKeyPress={this.onKeyPress}/>
+                value={this.props.textFieldValue} 
+                onChange={this.props.handleTextFieldChange}
+                onKeyPress={this.props.onKeyPress}/>
             </CardActions>
             <RaisedButton 
               label="Add Child" 

@@ -62,16 +62,35 @@ class Tree extends Component {
 
     this.state = {
       treeData: [{ title: 'App'}],
+      textFieldValue: '',
     };
     this.onButtonPress = this.onButtonPress.bind(this);
+    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
   }
 
   onButtonPress(){ this.setState(state => ({
       treeData: state.treeData.concat({
-        title: 'goddamnit',
+        title: this.state.textFieldValue,
       }),
     }))
   };
+
+  handleTextFieldChange(e){
+    this.setState({
+      textFieldValue: e.target.value,
+    });
+  }
+
+  onKeyPress(e) {
+    if(e.key == 'Enter') {
+      this.setState(state => ({
+        treeData: state.treeData.concat({
+          title: this.state.textFieldValue,
+        }),
+      }))
+    }
+  }
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
@@ -79,7 +98,10 @@ class Tree extends Component {
       firstNames[Math.floor(Math.random() * firstNames.length)];
     return (
       <div>
-        <Webpage onButtonPress={this.onButtonPress} />
+        <Webpage 
+          onButtonPress={this.onButtonPress} 
+          handleTextFieldChange={this.handleTextFieldChange}
+          onKeyPress={this.onKeyPress}/>
         <div style={{ height: 300 }}>
           <SortableTree
             treeData={this.state.treeData}
@@ -103,18 +125,6 @@ class Tree extends Component {
             })}
           />
         </div>
-
-        <button
-          onClick={() =>
-            this.setState(state => ({
-              treeData: state.treeData.concat({
-                title: 'goddamnit',
-              }),
-            }))
-          }
-        >
-          Add more
-        </button>
       </div>
     );
   }
