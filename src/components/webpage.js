@@ -13,6 +13,9 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
+import { paul } from '../../generateContent';
+import JSZip from 'jszip';
+const zip = new JSZip();
 
 const style = {
   margin: 12,
@@ -37,9 +40,11 @@ class Webpage extends Component {
   constructor(props) {
     super(props);
     this.state = {open: false,};
+
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.buttonCall = this.buttonCall.bind(this);
+    this.handleExport = this.handleExport.bind(this);
   }
 
   //Toggle = Drawer
@@ -47,6 +52,16 @@ class Webpage extends Component {
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
   buttonCall(){console.log('kausbdfkasndfdlsinfas')};
+  handleExport(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    zip.file('paul.txt', paul);
+    zip.generateAsync({type:"base64"}).then(function (base64) {
+    location.href="data:application/zip;base64," + base64;
+});
+
+
+  }
 
   render() {
     return (
@@ -57,7 +72,7 @@ class Webpage extends Component {
             <div>
               <FlatButton label="Save" />
               <FlatButton label="Load" />
-              <FlatButton label="Export" />
+              <FlatButton onClick={this.handleExport} label="Export" />
             </div>
             }
         />
@@ -100,11 +115,11 @@ class Webpage extends Component {
             </CardActions>
           </Card>
           <Card>
-            <CardActions>  
+            <CardActions>
               <TextField floatingLabelText="Child"/>
             </CardActions>
             <RaisedButton label="Add Child" onClick ={this.buttonCall} style={style} />
-          </Card> 
+          </Card>
         </Drawer>
       </div>
     );
@@ -112,4 +127,3 @@ class Webpage extends Component {
 }
 
 export default Webpage;
-
