@@ -13,9 +13,11 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
-var paul = require('../../generateContent');
+var generateCode = require('../../generateContent');
 import JSZip from 'jszip';
 const zip = new JSZip();
+import Tree from './tree';
+
 
 
 const style = {
@@ -40,11 +42,16 @@ class Webpage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {open: false,};
 
+    this.state = {
+      open: false,
+      textFieldValue: '',
+    };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.buttonCall = this.buttonCall.bind(this);
+    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
+    this.onButtonPress = this.onButtonPress.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
     this.handleExport = this.handleExport.bind(this);
   }
 
@@ -62,6 +69,20 @@ class Webpage extends Component {
   });
 }
 
+
+  handleTextFieldChange(e){
+    this.setState({
+      textFieldValue: e.target.value,
+    });
+  }
+  onButtonPress(){console.log(this.state.textFieldValue)};
+  onKeyPress(e) {
+    if(e.key == 'Enter') {
+      console.log(this.state.textFieldValue)
+    }
+  }
+
+
   render() {
     return (
       <div>
@@ -75,6 +96,7 @@ class Webpage extends Component {
             </div>
             }
         />
+        <Tree />
         <Drawer
           docked={false}
           width={200}
@@ -114,10 +136,18 @@ class Webpage extends Component {
             </CardActions>
           </Card>
           <Card>
+
             <CardActions>
-              <TextField floatingLabelText="Child"/>
+              <TextField
+                floatingLabelText="Child"
+                value={this.state.textFieldValue}
+                onChange={this.handleTextFieldChange}
+                onKeyPress={this.onKeyPress}/>
             </CardActions>
-            <RaisedButton label="Add Child" onClick ={this.buttonCall} style={style} />
+            <RaisedButton
+              label="Add Child"
+              style={style}
+              onClick={this.onButtonPress} />
           </Card>
         </Drawer>
       </div>

@@ -30,4 +30,4 @@ function generateCode() {
   return contents;
 }
 
-module.exports = paul;
+module.exports = generateCode;
