@@ -13,7 +13,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
-import { paul } from '../../generateContent';
+import { paul, scott } from '../../generateContent';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -55,7 +55,8 @@ class Webpage extends Component {
   handleExport(e) {
     e.preventDefault();
     e.stopPropagation();
-    zip.file('paul.txt', paul);
+    console.log(paul);
+    zip.file('paul.js', paul);
     zip.generateAsync({type:"base64"}).then(function (base64) {
     location.href="data:application/zip;base64," + base64;
 });
