@@ -16,9 +16,6 @@ import TextField from 'material-ui/TextField';
 import { generateCode, treeData } from '../../generateContent';
 import JSZip from 'jszip';
 const zip = new JSZip();
-import Tree from './tree';
-
-
 
 const style = {
   margin: 12,
@@ -45,21 +42,15 @@ class Webpage extends Component {
 
     this.state = {
       open: false,
-      textFieldValue: '',
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
-    this.onButtonPress = this.onButtonPress.bind(this);
-    this.onKeyPress = this.onKeyPress.bind(this);
-    this.handleExport = this.handleExport.bind(this);
   }
 
   //Toggle = Drawer
   handleToggle(){this.setState({open: !this.state.open})};
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
-  buttonCall(){console.log('kausbdfkasndfdlsinfas')};
 
   handleExport(e) {
     const contents = generateCode(treeData);
@@ -69,22 +60,13 @@ class Webpage extends Component {
     location.href="data:application/zip;base64," + base64;
   });
 }
-
-
-  handleTextFieldChange(e){
-    this.setState({
-      textFieldValue: e.target.value,
-    });
-  }
-  onButtonPress(){console.log(this.state.textFieldValue)};
-  onKeyPress(e) {
-    if(e.key == 'Enter') {
-      console.log(this.state.textFieldValue)
-    }
-  }
-
-
+  
   render() {
+
+    const parents = this.props.flattenedData.map((parent, index) => {
+      return <MenuItem key={index} value={index} primaryText={parent} />
+    })
+
     return (
       <div>
         <AppBar
@@ -97,7 +79,6 @@ class Webpage extends Component {
             </div>
             }
         />
-        <Tree />
         <Drawer
           docked={false}
           width={200}
@@ -124,32 +105,29 @@ class Webpage extends Component {
             <CardActions>
               <SelectField
                 floatingLabelText="Parent"
+                floatingLabelFixed={true}
                 value={this.state.value}
                 onChange={this.handleChange}
                 autoWidth={true}
               >
-                <MenuItem value={1} primaryText="App" />
-                <MenuItem value={2} primaryText="Board" />
-                <MenuItem value={3} primaryText="Row" />
-                <MenuItem value={4} primaryText="Squares" />
-                <MenuItem value={5} primaryText="Score" />
+                {parents}
               </SelectField>
             </CardActions>
           </Card>
           <Card>
-
-            <CardActions>
-              <TextField
-                floatingLabelText="Child"
-                value={this.state.textFieldValue}
-                onChange={this.handleTextFieldChange}
-                onKeyPress={this.onKeyPress}/>
+            <CardActions>  
+              <TextField 
+                floatingLabelText="Child" 
+                floatingLabelFixed={true}
+                value={this.props.textFieldValue} 
+                onChange={this.props.handleTextFieldChange}
+                onKeyPress={this.props.onKeyPress}/>
             </CardActions>
-            <RaisedButton
-              label="Add Child"
-              style={style}
-              onClick={this.onButtonPress} />
-          </Card>
+            <RaisedButton 
+              label="Add Child" 
+              style={style} 
+              onClick={this.props.onButtonPress}/>
+          </Card> 
         </Drawer>
       </div>
     );
