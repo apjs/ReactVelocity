@@ -12,6 +12,7 @@ class Tree extends Component {
       treeData: [{ title: 'App'}],
       flattenedData: ['App'],
       textFieldValue: '',
+      error: '',
     };
     this.onButtonPress = this.onButtonPress.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
@@ -20,11 +21,18 @@ class Tree extends Component {
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
   }
 
-  concatNewComponent() {this.setState(state => ({
-    treeData: state.treeData.concat({
-      title: this.state.textFieldValue,
-    }),
-  }))
+  concatNewComponent() {
+    if(this.state.textFieldValue !== '') {
+      this.setState(state => ({
+      treeData: state.treeData.concat({
+        title: this.state.textFieldValue,
+      }),
+      error: "",
+    }))
+  } else {(this.setState(state => ({
+      error: "This field is required"
+    })
+  ))}
 }
 
   updateFlattenedData() {
@@ -35,6 +43,7 @@ class Tree extends Component {
     });
     this.setState(state => ({
       flattenedData: flattenedArray,
+      textFieldValue: '',
     }))
   }
   
@@ -65,6 +74,8 @@ class Tree extends Component {
     return (
       <div>
         <Webpage 
+          error={this.state.error}
+          textFieldValue={this.state.textFieldValue}
           flattenedData={this.state.flattenedData}
           onButtonPress={this.onButtonPress} 
           handleTextFieldChange={this.handleTextFieldChange}

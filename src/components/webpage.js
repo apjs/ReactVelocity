@@ -119,6 +119,7 @@ class Webpage extends Component {
               <TextField 
                 floatingLabelText="Child" 
                 floatingLabelFixed={true}
+                errorText={this.props.error}
                 value={this.props.textFieldValue} 
                 onChange={this.props.handleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}/>
