@@ -38,7 +38,6 @@ class Webpage extends Component {
     super(props);
     this.state = {
       open: false,
-      // textFieldValue: '',
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -51,6 +50,11 @@ class Webpage extends Component {
  
   
   render() {
+
+    const parents = this.props.flattenedData.map((parent, index) => {
+      return <MenuItem key={index} value={index} primaryText={parent} />
+    })
+
     return (
       <div>
         <AppBar
@@ -89,15 +93,12 @@ class Webpage extends Component {
             <CardActions>
               <SelectField
                 floatingLabelText="Parent"
+                floatingLabelFixed={true}
                 value={this.state.value}
                 onChange={this.handleChange}
                 autoWidth={true}
               >
-                <MenuItem value={1} primaryText="App" />
-                <MenuItem value={2} primaryText="Board" />
-                <MenuItem value={3} primaryText="Row" />
-                <MenuItem value={4} primaryText="Squares" />
-                <MenuItem value={5} primaryText="Score" />
+                {parents}
               </SelectField>
             </CardActions>
           </Card>
@@ -105,6 +106,7 @@ class Webpage extends Component {
             <CardActions>  
               <TextField 
                 floatingLabelText="Child" 
+                floatingLabelFixed={true}
                 value={this.props.textFieldValue} 
                 onChange={this.props.handleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}/>
@@ -112,7 +114,7 @@ class Webpage extends Component {
             <RaisedButton 
               label="Add Child" 
               style={style} 
-              onClick={this.props.onButtonPress} />
+              onClick={this.props.onButtonPress}/>
           </Card> 
         </Drawer>
       </div>
