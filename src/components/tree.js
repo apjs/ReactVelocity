@@ -12,6 +12,7 @@ class Tree extends Component {
       treeData: [{ title: 'App'}],
       flattenedData: ['App'],
       textFieldValue: '',
+      flattenedArray: []
       error: '',
     };
     this.onButtonPress = this.onButtonPress.bind(this);
@@ -55,16 +56,18 @@ formatName(textField) {
   updateFlattenedData() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+    console.log(flatteningNestedArray);
     const flattenedArray = flatteningNestedArray.map(ele => {
       return ele.node.title
     });
     this.setState(state => ({
       flattenedData: flattenedArray,
-      textFieldValue: '',
+      flattenedArray: flatteningNestedArray,
     }))
-  }
+  } 
+  // export const flattenVar = 1;
 
-  onButtonPress(){
+  onButtonPress(){ 
     this.concatNewComponent();
     // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
     const that = this;
@@ -91,18 +94,19 @@ formatName(textField) {
   }
 
   render() {
+    // console.log('this.state ' + this.state);
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     console.table(flatteningNestedArray);
     return (
       <div>
         <Webpage
+          flattenedArray = {this.state.flattenedArray}
           error={this.state.error}
           textFieldValue={this.state.textFieldValue}
           flattenedData={this.state.flattenedData}
           formatName={this.formatName}
           onButtonPress={this.onButtonPress} 
-
           handleTextFieldChange={this.handleTextFieldChange}
           onKeyPress={this.onKeyPress}/>
         <div style={{ height: 700 }}>

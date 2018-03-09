@@ -46,9 +46,9 @@ class Webpage extends Component {
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
+  
   //Toggle = Drawer
-  handleToggle(){this.setState({open: !this.state.open})};
+  handleToggle(){ this.setState({open: !this.state.open})};
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
 
@@ -62,6 +62,21 @@ class Webpage extends Component {
 }
   
   render() {
+
+    let flattenedVar = this.props.flattenedArray;
+    // console.log('theprops ' + this.props.flattenedArray)
+    let compNames = [];
+    for(let i = 0; i<flattenedVar.length; i++) {
+      console.log('flattenedVari ' + flattenedVar[i]);
+        let keys = Object.keys(flattenedVar[i])
+        for(let j = 0; j<keys.length; j++) {
+          if(keys[j] === 'node') {
+            compNames.push(flattenedVar[i].node.title);
+          }
+        }
+        }
+  
+      console.log('compnames2 ' + compNames);
 
     const parents = this.props.flattenedData.map((parent, index) => {
       return <MenuItem key={index} value={index} primaryText={parent} />
@@ -134,5 +149,4 @@ class Webpage extends Component {
     );
   }
 }
-
 export default Webpage;
