@@ -56,7 +56,6 @@ formatName(textField) {
   updateFlattenedData() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log(flatteningNestedArray);
     const flattenedArray = flatteningNestedArray.map(ele => {
       return ele.node.title
     });
@@ -95,10 +94,9 @@ formatName(textField) {
   }
 
   render() {
-    // console.log('this.state ' + this.state);
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.table(flatteningNestedArray);
+    console.log('ARRAY: ', flatteningNestedArray);
     return (
       <div>
         <Webpage
