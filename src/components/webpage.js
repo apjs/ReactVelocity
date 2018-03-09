@@ -45,8 +45,9 @@ class Webpage extends Component {
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleExport = this.handleExport.bind(this);
   }
-  
+
   //Toggle = Drawer
   handleToggle(){ this.setState({open: !this.state.open})};
   //Change = Select Field
@@ -54,29 +55,24 @@ class Webpage extends Component {
 
   handleExport(e) {
     const contents = generateCode(treeData);
-    // console.log(contents);
     zip.file('paul.js', contents, {base64: false});
     zip.generateAsync({type:"base64"}).then(function (base64) {
     location.href="data:application/zip;base64," + base64;
   });
 }
-  
+
   render() {
 
     let flattenedVar = this.props.flattenedArray;
     // console.log('theprops ' + this.props.flattenedArray)
-    let compNames = [];
+    let version1 = [];
     for(let i = 0; i<flattenedVar.length; i++) {
-      console.log('flattenedVari ' + flattenedVar[i]);
-        let keys = Object.keys(flattenedVar[i])
-        for(let j = 0; j<keys.length; j++) {
-          if(keys[j] === 'node') {
-            compNames.push(flattenedVar[i].node.title);
-          }
-        }
-        }
-  
-      console.log('compnames2 ' + compNames);
+      console.log(flattenedVar[i]);
+      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
+      version1.push([flattenedVar[i].node.title, val]);
+    }
+
+      console.log('compnames2 ' + JSON.stringify(version1));
 
     const parents = this.props.flattenedData.map((parent, index) => {
       return <MenuItem key={index} value={index} primaryText={parent} />
@@ -130,20 +126,20 @@ class Webpage extends Component {
             </CardActions>
           </Card>
           <Card>
-            <CardActions>  
-              <TextField 
-                floatingLabelText="Child" 
+            <CardActions>
+              <TextField
+                floatingLabelText="Child"
                 floatingLabelFixed={true}
                 errorText={this.props.error}
-                value={this.props.textFieldValue} 
+                value={this.props.textFieldValue}
                 onChange={this.props.handleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}/>
             </CardActions>
-            <RaisedButton 
-              label="Add Child" 
-              style={style} 
+            <RaisedButton
+              label="Add Child"
+              style={style}
               onClick={this.props.onButtonPress}/>
-          </Card> 
+          </Card>
         </Drawer>
       </div>
     );
