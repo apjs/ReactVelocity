@@ -1,6 +1,6 @@
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
-import React, { Component } from 'react';
 import SortableTree, { removeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import Webpage from './webpage';
 
@@ -13,19 +13,44 @@ class Tree extends Component {
       flattenedData: ['App'],
       textFieldValue: '',
       flattenedArray: []
+      error: '',
     };
     this.onButtonPress = this.onButtonPress.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
+    this.formatName = this.formatName.bind(this);
   }
 
-  concatNewComponent() {this.setState(state => ({
-    treeData: state.treeData.concat({
-      title: this.state.textFieldValue,
-    }),
-  }))
+  concatNewComponent() {
+    if(this.state.textFieldValue !== '') {
+      this.setState(state => ({
+      treeData: state.treeData.concat({
+        title: this.formatName(this.state.textFieldValue),
+      }),
+      error: "",
+    }))
+  } else {(this.setState(state => ({
+      error: "This field is required"
+    })
+  ))}
+}
+
+formatName(textField) {
+  let scrubbedResult = textField
+  // Capitalize first letter of string. 
+  //| ^ = beginning of output | . = 1st char of str |
+  .replace(/^./g, x => x.toUpperCase())
+  // Capitalize first letter of each word and removes spaces. 
+  //| \ = matches | \w = any alphanumeric | \S = single char except white space 
+  //| * = preceeding expression 0 or more times | + = preceeding expression 1 or more times |
+  .replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1);})
+  .replace(/\ +/g, x => '')
+  // Remove appending file extensions like .js or .json.
+  //| \. = . in file extensions | $ = end of input | 
+  .replace(/\..+$/, '');
+  return scrubbedResult;
 }
 
   updateFlattenedData() {
@@ -39,15 +64,14 @@ class Tree extends Component {
       flattenedData: flattenedArray,
       flattenedArray: flatteningNestedArray,
     }))
-  }
-  
+  } 
   // export const flattenVar = 1;
 
   onButtonPress(){ 
     this.concatNewComponent();
     // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
     const that = this;
-    setTimeout(function(){that.updateFlattenedData()},200);
+    setTimeout(function(){that.updateFlattenedData()},100);
   };
 
   handleTextFieldChange(e){
@@ -65,18 +89,27 @@ class Tree extends Component {
     }
   }
 
+  componentDidMount() {
+    this.updateFlattenedData();
+  }
+
   render() {
     // console.log('this.state ' + this.state);
     const getNodeKey = ({ treeIndex }) => treeIndex;
+    const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+    console.table(flatteningNestedArray);
     return (
       <div>
-        <Webpage 
+        <Webpage
           flattenedArray = {this.state.flattenedArray}
+          error={this.state.error}
+          textFieldValue={this.state.textFieldValue}
           flattenedData={this.state.flattenedData}
+          formatName={this.formatName}
           onButtonPress={this.onButtonPress} 
           handleTextFieldChange={this.handleTextFieldChange}
           onKeyPress={this.onKeyPress}/>
-        <div style={{ height: 300 }}>
+        <div style={{ height: 700 }}>
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
