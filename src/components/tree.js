@@ -63,12 +63,12 @@ formatName(textField) {
       textFieldValue: '',
     }))
   }
-  
-  onButtonPress(){ 
+
+  onButtonPress(){
     this.concatNewComponent();
     // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
     const that = this;
-    setTimeout(function(){that.updateFlattenedData()},200);
+    setTimeout(function(){that.updateFlattenedData()},100);
   };
 
   handleTextFieldChange(e){
@@ -96,15 +96,16 @@ formatName(textField) {
     console.table(flatteningNestedArray);
     return (
       <div>
-        <Webpage 
+        <Webpage
           error={this.state.error}
           textFieldValue={this.state.textFieldValue}
           flattenedData={this.state.flattenedData}
           formatName={this.formatName}
           onButtonPress={this.onButtonPress} 
+
           handleTextFieldChange={this.handleTextFieldChange}
           onKeyPress={this.onKeyPress}/>
-        <div style={{ height: 300 }}>
+        <div style={{ height: 700 }}>
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
