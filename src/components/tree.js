@@ -12,7 +12,7 @@ class Tree extends Component {
       treeData: [{ title: 'App'}],
       flattenedData: ['App'],
       textFieldValue: '',
-      flattenedArray: []
+      flattenedArray: [],
       error: '',
     };
     this.onButtonPress = this.onButtonPress.bind(this);
@@ -39,16 +39,16 @@ class Tree extends Component {
 
 formatName(textField) {
   let scrubbedResult = textField
-  // Capitalize first letter of string. 
+  // Capitalize first letter of string.
   //| ^ = beginning of output | . = 1st char of str |
   .replace(/^./g, x => x.toUpperCase())
-  // Capitalize first letter of each word and removes spaces. 
-  //| \ = matches | \w = any alphanumeric | \S = single char except white space 
+  // Capitalize first letter of each word and removes spaces.
+  //| \ = matches | \w = any alphanumeric | \S = single char except white space
   //| * = preceeding expression 0 or more times | + = preceeding expression 1 or more times |
   .replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1);})
   .replace(/\ +/g, x => '')
   // Remove appending file extensions like .js or .json.
-  //| \. = . in file extensions | $ = end of input | 
+  //| \. = . in file extensions | $ = end of input |
   .replace(/\..+$/, '');
   return scrubbedResult;
 }
@@ -64,10 +64,10 @@ formatName(textField) {
       flattenedData: flattenedArray,
       flattenedArray: flatteningNestedArray,
     }))
-  } 
+  }
   // export const flattenVar = 1;
 
-  onButtonPress(){ 
+  onButtonPress(){
     this.concatNewComponent();
     // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
     const that = this;
@@ -106,7 +106,7 @@ formatName(textField) {
           textFieldValue={this.state.textFieldValue}
           flattenedData={this.state.flattenedData}
           formatName={this.formatName}
-          onButtonPress={this.onButtonPress} 
+          onButtonPress={this.onButtonPress}
           handleTextFieldChange={this.handleTextFieldChange}
           onKeyPress={this.onKeyPress}/>
         <div style={{ height: 700 }}>
