@@ -96,10 +96,21 @@ formatName(textField) {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log('ARRAY: ', flatteningNestedArray);
+    // console.table(flatteningNestedArray);
+    let flattenedVar = flatteningNestedArray;
+    // console.log('theprops ' + this.props.flattenedArray)
+    let version1 = [];
+    for(let i = 0; i<flattenedVar.length; i++) {
+      // console.log(flattenedVar[i]);
+      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
+      version1.push([flattenedVar[i].node.title, val]);
+    }
+      console.log('compnames2 ' + JSON.stringify(version1));
     return (
       <div>
         <Webpage
+          updateFlattenedData={this.updateFlattenedData}
+          treeData={this.state.treeData}
           flattenedArray = {this.state.flattenedArray}
           error={this.state.error}
           textFieldValue={this.state.textFieldValue}

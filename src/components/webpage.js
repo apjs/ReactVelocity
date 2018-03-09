@@ -61,19 +61,11 @@ class Webpage extends Component {
   });
 }
 
-  render() {
+  componentDidMount() {
+    this.props.updateFlattenedData();
+  }
 
-    let flattenedVar = this.props.flattenedArray;
-    // console.log('theprops ' + this.props.flattenedArray)
-    let version1 = [];
-    for(let i = 0; i<flattenedVar.length; i++) {
-      console.log(flattenedVar[i]);
-      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
-      version1.push([flattenedVar[i].node.title, val]);
-    }
-
-      console.log('compnames2 ' + JSON.stringify(version1));
-
+  render() {    
     const parents = this.props.flattenedData.map((parent, index) => {
       return <MenuItem key={index} value={index} primaryText={parent} />
     })
