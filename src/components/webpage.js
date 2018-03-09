@@ -13,9 +13,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
-import { generateCode, treeData } from '../../generateContent';
-import JSZip from 'jszip';
-const zip = new JSZip();
+
 
 const style = {
   margin: 12,
@@ -45,25 +43,13 @@ class Webpage extends Component {
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleExport = this.handleExport.bind(this);
+    // this.handleExport = this.handleExport.bind(this);
   }
 
   //Toggle = Drawer
   handleToggle(){ this.setState({open: !this.state.open})};
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
-
-  handleExport(e) {
-    const contents = generateCode(treeData);
-    zip.file('paul.js', contents, {base64: false});
-    zip.generateAsync({type:"base64"}).then(function (base64) {
-    location.href="data:application/zip;base64," + base64;
-  });
-}
-
-  componentDidMount() {
-    this.props.updateFlattenedData();
-  }
 
   render() {    
     const parents = this.props.flattenedData.map((parent, index) => {
@@ -78,7 +64,7 @@ class Webpage extends Component {
             <div>
               <FlatButton label="Save" />
               <FlatButton label="Load" />
-              <FlatButton onClick={this.handleExport} label="Export" />
+              <FlatButton onClick={this.props.exportZipFiles} label="Export" />
             </div>
             }
         />

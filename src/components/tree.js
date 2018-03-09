@@ -3,6 +3,9 @@ import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
 import SortableTree, { removeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import Webpage from './webpage';
+import { generateCode, version2 } from '../../generateContent';
+import JSZip from 'jszip';
+const zip = new JSZip();
 
 class Tree extends Component {
   constructor(props) {
@@ -14,6 +17,7 @@ class Tree extends Component {
       textFieldValue: '',
       flattenedArray: [],
       error: '',
+      version2: {},
     };
     this.onButtonPress = this.onButtonPress.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
@@ -21,6 +25,9 @@ class Tree extends Component {
     this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
     this.formatName = this.formatName.bind(this);
+    this.handleExport = this.handleExport.bind(this);
+    this.createCodeForGenerateContent = this.createCodeForGenerateContent.bind(this);
+    this.exportZipFiles = this.exportZipFiles.bind(this);
   }
 
   concatNewComponent() {
@@ -89,6 +96,57 @@ formatName(textField) {
     }
   }
 
+  createCodeForGenerateContent() {
+    const getNodeKey = ({ treeIndex }) => treeIndex;
+    const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+
+    let flattenedVar = flatteningNestedArray;
+    // console.log('theprops ' + this.props.flattenedArray)
+    let version1 = [];
+    let version2 = {};
+    for(let i = 0; i<flattenedVar.length; i++) {
+      // console.log(flattenedVar[i]);
+      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
+      version1.push([flattenedVar[i].node.title, val]);
+    }
+
+      // console.log('compnames2 ' + JSON.stringify(version1));
+    for (let i=0; i< version1.length; i++) {
+      let subArr = version1[i];
+      let lastElem = subArr[subArr.length-1];
+      let firstElem = subArr[0];
+      for (let j=0; j< subArr.length; j++) {
+        if (!version2[firstElem]) {
+          version2[firstElem] = null;
+        }
+        if (version2.hasOwnProperty(lastElem) && version2[lastElem] === null) {
+          version2[lastElem] = subArr.slice(0, -1);
+        }
+      }
+    }
+    this.setState({
+      version2: version2,
+    });
+  }
+
+  handleExport() {
+    const files = generateCode(this.state.version2);
+    let fileNames = Object.keys(files);
+    for (let i=0; i<fileNames.length;i++) {
+      zip.file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
+    }
+    // zip.file('paul.js', contents, {base64: false});
+    zip.generateAsync({type:"base64"}).then(function (base64) {
+    location.href="data:application/zip;base64," + base64;
+  });
+}
+
+  exportZipFiles() {
+    this.createCodeForGenerateContent();
+    const that = this;
+    setTimeout(() => {that.handleExport()}, 100);
+  }
+
   componentDidMount() {
     this.updateFlattenedData();
   }
@@ -96,19 +154,38 @@ formatName(textField) {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    // console.table(flatteningNestedArray);
+
     let flattenedVar = flatteningNestedArray;
     // console.log('theprops ' + this.props.flattenedArray)
     let version1 = [];
+    let version2 = {};
     for(let i = 0; i<flattenedVar.length; i++) {
       // console.log(flattenedVar[i]);
       let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
       version1.push([flattenedVar[i].node.title, val]);
     }
-      console.log('compnames2 ' + JSON.stringify(version1));
+
+      // console.log('compnames2 ' + JSON.stringify(version1));
+    for (let i=0; i< version1.length; i++) {
+      let subArr = version1[i];
+      let lastElem = subArr[subArr.length-1];
+      let firstElem = subArr[0];
+      for (let j=0; j< subArr.length; j++) {
+        if (!version2[firstElem]) {
+          version2[firstElem] = null;
+        }
+        if (version2.hasOwnProperty(lastElem) && version2[lastElem] === null) {
+          version2[lastElem] = subArr.slice(0, -1);
+        }
+      }
+    }
+    // console.log('HEEEEEEY', JSON.stringify(version2));
+
+    // console.log('ARRAY: ', flatteningNestedArray);
     return (
       <div>
         <Webpage
+          exportZipFiles={this.exportZipFiles}
           updateFlattenedData={this.updateFlattenedData}
           treeData={this.state.treeData}
           flattenedArray = {this.state.flattenedArray}
