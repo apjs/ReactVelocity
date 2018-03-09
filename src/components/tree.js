@@ -63,6 +63,7 @@ formatName(textField) {
     this.setState(state => ({
       flattenedData: flattenedArray,
       flattenedArray: flatteningNestedArray,
+      textFieldValue: '',
     }))
   }
   // export const flattenVar = 1;
