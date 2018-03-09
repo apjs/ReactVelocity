@@ -13,7 +13,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
-import { generateCode, treeData } from '../../generateContent';
+import { generateCode, version2 } from '../../generateContent';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -54,8 +54,12 @@ class Webpage extends Component {
   handleChange(event, index, value) {this.setState({value})};
 
   handleExport(e) {
-    const contents = generateCode(treeData);
-    zip.file('paul.js', contents, {base64: false});
+    const files = generateCode(version2);
+    let fileNames = Object.keys(files);
+    for (let i=0; i<fileNames.length;i++) {
+      zip.file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
+    }
+    // zip.file('paul.js', contents, {base64: false});
     zip.generateAsync({type:"base64"}).then(function (base64) {
     location.href="data:application/zip;base64," + base64;
   });
@@ -63,17 +67,7 @@ class Webpage extends Component {
 
   render() {
 
-    let flattenedVar = this.props.flattenedArray;
-    // console.log('theprops ' + this.props.flattenedArray)
-    let version1 = [];
-    for(let i = 0; i<flattenedVar.length; i++) {
-      console.log(flattenedVar[i]);
-      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
-      version1.push([flattenedVar[i].node.title, val]);
-    }
-
-      console.log('compnames2 ' + JSON.stringify(version1));
-
+    
     const parents = this.props.flattenedData.map((parent, index) => {
       return <MenuItem key={index} value={index} primaryText={parent} />
     })
