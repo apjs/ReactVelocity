@@ -14,7 +14,6 @@ import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
 
-
 const style = {
   margin: 12,
 };
@@ -37,13 +36,11 @@ class Webpage extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       open: false,
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    // this.handleExport = this.handleExport.bind(this);
   }
 
   //Toggle = Drawer
