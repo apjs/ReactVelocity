@@ -86,6 +86,10 @@ formatName(textField) {
     }
   }
 
+  componentDidMount() {
+    this.updateFlattenedData();
+  }
+
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
