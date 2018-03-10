@@ -47,4 +47,4 @@ export function generateCode(data) {
 }
 
 // export const treeData = [{title: 'App', children: [{title: 'Bengt', children: [{title: 'Einar'}]}, {title: 'Daniel'}]}];
-export const version2 = {"App":["Scott"],"Scott":["Justin"],"Justin":null,"Alex":null}
+// export const version2 = {"App":["Scott"],"Scott":["Justin"],"Justin":null,"Alex":null}
