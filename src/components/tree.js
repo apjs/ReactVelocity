@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
 import SortableTree, { removeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
+import MenuItem from 'material-ui/MenuItem';
 import Webpage from './webpage';
 import { generateCode, version2 } from '../../generateContent';
 import JSZip from 'jszip';
@@ -18,6 +19,7 @@ class Tree extends Component {
       flattenedArray: [],
       error: '',
       version2: {},
+      parents: [],
     };
     this.formatName = this.formatName.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
@@ -28,6 +30,7 @@ class Tree extends Component {
     this.createCodeForGenerateContent = this.createCodeForGenerateContent.bind(this);
     this.handleExport = this.handleExport.bind(this);
     this.exportZipFiles = this.exportZipFiles.bind(this);
+    this.createParents = this.createParents.bind(this);
   }
 
   formatName(textField) {
@@ -84,6 +87,7 @@ class Tree extends Component {
     // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
     const that = this;
     setTimeout(function(){that.updateFlattenedData()},100);
+    setTimeout(function(){that.createParents()},150);
   };
 
   onKeyPress(e) {
@@ -92,6 +96,7 @@ class Tree extends Component {
       // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
       const that = this;
       setTimeout(function(){that.updateFlattenedData()},100);
+      setTimeout(function(){that.createParents()},150);
     }
   }
 
@@ -144,11 +149,25 @@ class Tree extends Component {
     setTimeout(() => {that.handleExport()}, 100);
   }
 
+  createParents() {
+    const getNodeKey = ({ treeIndex }) => treeIndex;
+    const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+    const flattenedArray = flatteningNestedArray.map(ele => {
+      return ele.node.title
+    });
+    const parents = flattenedArray.map((parent, index) => {
+      return <MenuItem key={index} value={index} primaryText={parent} />
+    });
+    this.setState({parents: parents});
+  }
+
   componentDidMount() {
     this.updateFlattenedData();
+    this.createParents();
   }
 
   render() {
+    console.log(this.state.parents)
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     let flattenedVar = flatteningNestedArray;
@@ -184,6 +203,7 @@ class Tree extends Component {
           textFieldValue={this.state.textFieldValue}
           flattenedArray = {this.state.flattenedArray}
           error={this.state.error}
+          parents={this.state.parents}
           formatName={this.formatName}
           handleTextFieldChange={this.handleTextFieldChange}
           updateFlattenedData={this.updateFlattenedData}

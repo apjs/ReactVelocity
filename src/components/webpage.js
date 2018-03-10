@@ -49,10 +49,6 @@ class Webpage extends Component {
   handleChange(event, index, value) {this.setState({value})};
 
   render() {    
-    const parents = this.props.flattenedData.map((parent, index) => {
-      return <MenuItem key={index} value={index} primaryText={parent} />
-    })
-
     return (
       <div>
         <AppBar
@@ -96,7 +92,7 @@ class Webpage extends Component {
                 onChange={this.handleChange}
                 autoWidth={true}
               >
-                {parents}
+                {this.props.parents}
               </SelectField>
             </CardActions>
           </Card>
