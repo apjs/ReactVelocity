@@ -135,7 +135,6 @@ class Tree extends Component {
     });
   }
 }
-
   handleExport() {
     const files = generateCode(this.state.version2);
     let fileNames = Object.keys(files);
