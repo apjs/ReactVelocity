@@ -28,7 +28,7 @@ const styles = {
     },
     //DropDown
     customWidth: {
-        width: 200,
+        width: 100,
     },
   };
 
@@ -91,6 +91,7 @@ class Webpage extends Component {
                 value={this.state.value}
                 onChange={this.handleChange}
                 autoWidth={true}
+                style= {{width: 185}}
               >
                 {this.props.parents}
               </SelectField>
@@ -104,7 +105,8 @@ class Webpage extends Component {
                 errorText={this.props.error}
                 value={this.props.textFieldValue}
                 onChange={this.props.handleTextFieldChange}
-                onKeyPress={this.props.onKeyPress}/>
+                onKeyPress={this.props.onKeyPress}
+                style= {{width: 185}}/>
             </CardActions>
             <RaisedButton
               label="Add Child"
