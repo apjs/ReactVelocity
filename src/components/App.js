@@ -1,12 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Tree from './tree';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ReactTree from './react-tree';
+import ReduxTree from './redux-tree';
  
-const App = () => (
-  <MuiThemeProvider>
-      <Tree />
-  </MuiThemeProvider>
-);
+class App extends Component {
+    render () {
+      return (
+        <Router>
+          <div>
+            <Route exact path='/' component={ReactTree} />
+            <Route exact path='/redux' component={ReduxTree} />
+          </div>
+        </Router>
+      )
+    }
+  }
 
 export default App;
