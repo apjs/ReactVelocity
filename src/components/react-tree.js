@@ -181,7 +181,7 @@ class ReactTree extends Component {
                         treeData: state.treeData,
                         path,
                         getNodeKey,
-                        newNode: { node, name},
+                        newNode: { ...node, name },
                       }),
                     }));
                   }}
@@ -189,7 +189,7 @@ class ReactTree extends Component {
               ),
               buttons: [
                 <button
-                onClick={() =>
+                onClick={() => 
                   this.setState(state => ({
                     treeData: addNodeUnderParent({
                       treeData: state.treeData,
@@ -200,8 +200,8 @@ class ReactTree extends Component {
                         name: '',
                       },
                     }).treeData,
-                  }))
-                }
+                }))
+              }
               >
                 Add Child
               </button>,
