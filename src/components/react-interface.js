@@ -8,8 +8,6 @@ import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-//Select Field
-import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
 
@@ -62,7 +60,7 @@ class ReactInterface extends Component {
         />
         <Drawer
           docked={false}
-          width={200}
+          width={150}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
@@ -78,20 +76,6 @@ class ReactInterface extends Component {
           </Card>
           <Card>
             <CardActions>
-              <SelectField
-                floatingLabelText="Parent"
-                floatingLabelFixed={true}
-                value={this.state.value}
-                onChange={this.handleChange}
-                autoWidth={true}
-                style= {{width: 185}}
-              >
-                {this.props.parents}
-              </SelectField>
-            </CardActions>
-          </Card>
-          <Card>
-            <CardActions>
               <TextField
                 floatingLabelText="Child"
                 floatingLabelFixed={true}
@@ -99,7 +83,7 @@ class ReactInterface extends Component {
                 value={this.props.textFieldValue}
                 onChange={this.props.handleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}
-                style= {{width: 185}}/>
+                style= {{width: 135}}/>
             </CardActions>
             <RaisedButton
               label="Add Child"

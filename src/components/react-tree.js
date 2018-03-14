@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
-import SortableTree, { removeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
+import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
 import ReactInterface from './react-interface';
 import { generateCode, version2 } from '../../generateContent';
@@ -13,13 +13,12 @@ class ReactTree extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ title: 'App'}],
+      treeData: [{ name: 'App'}],
       flattenedData: ['App'],
       textFieldValue: '',
       flattenedArray: [],
       error: '',
       version2: {},
-      parents: [],
     };
     this.formatName = this.formatName.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
@@ -30,7 +29,6 @@ class ReactTree extends Component {
     this.createCodeForGenerateContent = this.createCodeForGenerateContent.bind(this);
     this.handleExport = this.handleExport.bind(this);
     this.exportZipFiles = this.exportZipFiles.bind(this);
-    this.createParents = this.createParents.bind(this);
   }
 
   formatName(textField) {
@@ -59,7 +57,7 @@ class ReactTree extends Component {
     if(this.state.textFieldValue !== '') {
       this.setState(state => ({
         treeData: state.treeData.concat({
-          title: this.formatName(this.state.textFieldValue),
+          name: this.formatName(this.state.textFieldValue),
         }),
         error: "",
       }))
@@ -73,7 +71,7 @@ class ReactTree extends Component {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.title
+      return ele.node.name
     });
     this.setState(state => ({
       flattenedData: flattenedArray,
@@ -87,7 +85,6 @@ class ReactTree extends Component {
     // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
     const that = this;
     setTimeout(function(){that.updateFlattenedData()},100);
-    setTimeout(function(){that.createParents()},150);
   };
 
   onKeyPress(e) {
@@ -96,7 +93,6 @@ class ReactTree extends Component {
       // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
       const that = this;
       setTimeout(function(){that.updateFlattenedData()},100);
-      setTimeout(function(){that.createParents()},150);
     }
   }
 
@@ -109,16 +105,16 @@ class ReactTree extends Component {
     let version2 = {};
     for(let i = 0; i<flattenedVar.length; i++) {
       // console.log(flattenedVar[i]);
-      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
-      version1.push([flattenedVar[i].node.title, val]);
+      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.name : null;
+      version1.push([flattenedVar[i].node.name, val]);
     }
       // console.log('compnames2 ' + JSON.stringify(version1));
     for (let i=0; i< version1.length; i++) {
       let subArr = version1[i];
       let lastElem = subArr[subArr.length-1];
       let firstElem = subArr[0];
-      console.log('SUBARR: ', subArr);
-      console.log(`ITERATION: ${i}: `, version2)
+      // console.log('SUBARR: ', subArr);
+      // console.log(`ITERATION: ${i}: `, version2)
       if (!version2[firstElem]) {
         version2[firstElem] = null;
       }
@@ -127,8 +123,8 @@ class ReactTree extends Component {
       } else if (version2.hasOwnProperty(lastElem) && version2[lastElem] !== null) {
         version2[lastElem] = version2[lastElem].concat(subArr.slice(0, -1));
     }
-    console.log('VERSION1: ', version1);
-    console.log('VERSION2: ', version2);
+    // console.log('VERSION1: ', version1);
+    // console.log('VERSION2: ', version2);
 
     this.setState({
       version2: version2,
@@ -153,25 +149,12 @@ class ReactTree extends Component {
     setTimeout(() => {that.handleExport()}, 100);
   }
 
-  createParents() {
-    const getNodeKey = ({ treeIndex }) => treeIndex;
-    const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.title
-    });
-    const parents = flattenedArray.map((parent, index) => {
-      return <MenuItem key={index} value={index} primaryText={parent} />
-    });
-    this.setState({parents: parents});
-  }
-
   componentDidMount() {
     this.updateFlattenedData();
-    this.createParents();
   }
 
   render() {
-    console.log(this.state.parents)
+    console.log(this.state.treeData)
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     let flattenedVar = flatteningNestedArray;
@@ -180,8 +163,8 @@ class ReactTree extends Component {
     let version2 = {};
     for(let i = 0; i<flattenedVar.length; i++) {
       // console.log(flattenedVar[i]);
-      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
-      version1.push([flattenedVar[i].node.title, val]);
+      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.name : null;
+      version1.push([flattenedVar[i].node.name, val]);
     }
       // console.log('compnames2 ' + JSON.stringify(version1));
     for (let i=0; i< version1.length; i++) {
@@ -207,7 +190,6 @@ class ReactTree extends Component {
           textFieldValue={this.state.textFieldValue}
           flattenedArray = {this.state.flattenedArray}
           error={this.state.error}
-          parents={this.state.parents}
           formatName={this.formatName}
           handleTextFieldChange={this.handleTextFieldChange}
           updateFlattenedData={this.updateFlattenedData}
@@ -219,7 +201,42 @@ class ReactTree extends Component {
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
             generateNodeProps={({ node, path }) => ({
+              title: (
+                <input
+                  style={{ fontSize: '1.1rem' }}
+                  value={this.formatName(node.name)}
+                  onChange={event => {
+                    const name = event.target.value;
+
+                    this.setState(state => ({
+                      treeData: changeNodeAtPath({
+                        treeData: state.treeData,
+                        path,
+                        getNodeKey,
+                        newNode: { node, name},
+                      }),
+                    }));
+                  }}
+                />
+              ),
               buttons: [
+                <button
+                onClick={() =>
+                  this.setState(state => ({
+                    treeData: addNodeUnderParent({
+                      treeData: state.treeData,
+                      parentKey: path[path.length - 1],
+                      expandParent: true,
+                      getNodeKey,
+                      newNode: {
+                        name: '',
+                      },
+                    }).treeData,
+                  }))
+                }
+              >
+                Add Child
+              </button>,
                 <button
                   onClick={() =>
                     this.setState(state => ({
@@ -231,7 +248,7 @@ class ReactTree extends Component {
                     }))
                   }
                 >
-                  Remove
+                  X
                 </button>,
               ],
             })}

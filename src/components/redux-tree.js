@@ -1,7 +1,11 @@
+//add an onclick to the export button to update the flattened array
+//that way the flattenedata array is up to date
+
+
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
-import SortableTree, { addNodeUnderParent ,removeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
+import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
 import ReduxInterface from './redux-interface';
 import { generateCode, version2 } from '../../generateContent';
@@ -13,7 +17,7 @@ class ReduxTree extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ title: 'Actions'},{ title: 'Reducers'},{ title: 'Containers'},{ title: 'Components'}],
+      treeData: [{ name: 'Actions'},{ name: 'Reducers'},{ name: 'Containers'},{ name: 'Components'}],
       flattenedData: ['App','Reducers','Containers','Componentss'],
       textFieldValue: '',
       flattenedArray: [],
@@ -22,8 +26,6 @@ class ReduxTree extends Component {
       parents: [],
     };
     this.formatName = this.formatName.bind(this);
-    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
-    this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
@@ -49,31 +51,13 @@ class ReduxTree extends Component {
     return scrubbedResult;
   }
 
-  handleTextFieldChange(e){
-    this.setState({
-      textFieldValue: e.target.value,
-    });
-  }
-
-  concatNewComponent() {
-    if(this.state.textFieldValue !== '') {
-      this.setState(state => ({
-        treeData: state.treeData.concat({
-          title: this.formatName(this.state.textFieldValue),
-        }),
-        error: "",
-      }))
-    } else {(this.setState(state => ({
-        error: "This field is required"
-      })
-    ))}
-  }
+  
 
   updateFlattenedData() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.title
+      return ele.node.name
     });
     this.setState(state => ({
       flattenedData: flattenedArray,
@@ -109,8 +93,8 @@ class ReduxTree extends Component {
     let version2 = {};
     for(let i = 0; i<flattenedVar.length; i++) {
       // console.log(flattenedVar[i]);
-      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
-      version1.push([flattenedVar[i].node.title, val]);
+      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.name : null;
+      version1.push([flattenedVar[i].node.name, val]);
     }
       // console.log('compnames2 ' + JSON.stringify(version1));
     for (let i=0; i< version1.length; i++) {
@@ -157,7 +141,7 @@ class ReduxTree extends Component {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.title
+      return ele.node.name
     });
     const parents = flattenedArray.map((parent, index) => {
       return <MenuItem key={index} value={index} primaryText={parent} />
@@ -171,7 +155,7 @@ class ReduxTree extends Component {
   }
 
   render() {
-    console.log(this.state.parents)
+    console.log(this.state.treeData)
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     let flattenedVar = flatteningNestedArray;
@@ -180,8 +164,8 @@ class ReduxTree extends Component {
     let version2 = {};
     for(let i = 0; i<flattenedVar.length; i++) {
       // console.log(flattenedVar[i]);
-      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.title : null;
-      version1.push([flattenedVar[i].node.title, val]);
+      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.name : null;
+      version1.push([flattenedVar[i].node.name, val]);
     }
       // console.log('compnames2 ' + JSON.stringify(version1));
     for (let i=0; i< version1.length; i++) {
@@ -219,6 +203,24 @@ class ReduxTree extends Component {
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
             generateNodeProps={({ node, path }) => ({
+              title: (
+                <input
+                  style={{ fontSize: '1.1rem' }}
+                  value={node.name}
+                  onChange={event => {
+                    const name = event.target.value;
+
+                    this.setState(state => ({
+                      treeData: changeNodeAtPath({
+                        treeData: state.treeData,
+                        path,
+                        getNodeKey,
+                        newNode: { node, name},
+                      }),
+                    }));
+                  }}
+                />
+              ),
               buttons: [
                 <button
                 onClick={() =>
@@ -229,7 +231,7 @@ class ReduxTree extends Component {
                       expandParent: true,
                       getNodeKey,
                       newNode: {
-                        title: this.state.textFieldValue,
+                        name: '',
                       },
                     }).treeData,
                   }))
@@ -248,7 +250,7 @@ class ReduxTree extends Component {
                     }))
                   }
                 >
-                  Remove
+                  X
                 </button>,
               ],
             })}
