@@ -19,6 +19,7 @@ class ReactTree extends Component {
       flattenedArray: [],
       error: '',
       version2: {},
+      isToggleOn: true,
     };
     this.formatName = this.formatName.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
@@ -29,6 +30,7 @@ class ReactTree extends Component {
     this.createCodeForGenerateContent = this.createCodeForGenerateContent.bind(this);
     this.handleExport = this.handleExport.bind(this);
     this.exportZipFiles = this.exportZipFiles.bind(this);
+    this.toggleStateButton = this.toggleStateButton.bind(this);
   }
 
   formatName(textField) {
@@ -147,6 +149,12 @@ class ReactTree extends Component {
     this.updateFlattenedData();
   }
 
+  toggleStateButton() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+  }
+
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
 
@@ -189,7 +197,11 @@ class ReactTree extends Component {
               ),
               buttons: [
                 <button
-                onClick={() => 
+                onClick={this.toggleStateButton}>
+                {this.state.isToggleOn? 'stateful': 'stateless'}
+              </button>,
+                <button
+                onClick={() =>
                   this.setState(state => ({
                     treeData: addNodeUnderParent({
                       treeData: state.treeData,
