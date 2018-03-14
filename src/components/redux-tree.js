@@ -88,21 +88,16 @@ class ReduxTree extends Component {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     let flattenedVar = flatteningNestedArray;
-    // console.log('theprops ' + this.props.flattenedArray)
     let version1 = [];
     let version2 = {};
     for(let i = 0; i<flattenedVar.length; i++) {
-      // console.log(flattenedVar[i]);
       let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.name : null;
       version1.push([flattenedVar[i].node.name, val]);
     }
-      // console.log('compnames2 ' + JSON.stringify(version1));
     for (let i=0; i< version1.length; i++) {
       let subArr = version1[i];
       let lastElem = subArr[subArr.length-1];
       let firstElem = subArr[0];
-      console.log('SUBARR: ', subArr);
-      console.log(`ITERATION: ${i}: `, version2)
       if (!version2[firstElem]) {
         version2[firstElem] = null;
       }
@@ -111,8 +106,6 @@ class ReduxTree extends Component {
       } else if (version2.hasOwnProperty(lastElem) && version2[lastElem] !== null) {
         version2[lastElem] = version2[lastElem].concat(subArr.slice(0, -1));
     }
-    console.log('VERSION1: ', version1);
-    console.log('VERSION2: ', version2);
 
     this.setState({
       version2: version2,
@@ -155,34 +148,8 @@ class ReduxTree extends Component {
   }
 
   render() {
-    console.log(this.state.treeData)
     const getNodeKey = ({ treeIndex }) => treeIndex;
-    const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    let flattenedVar = flatteningNestedArray;
-    // console.log('theprops ' + this.props.flattenedArray)
-    let version1 = [];
-    let version2 = {};
-    for(let i = 0; i<flattenedVar.length; i++) {
-      // console.log(flattenedVar[i]);
-      let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.name : null;
-      version1.push([flattenedVar[i].node.name, val]);
-    }
-      // console.log('compnames2 ' + JSON.stringify(version1));
-    for (let i=0; i< version1.length; i++) {
-      let subArr = version1[i];
-      let lastElem = subArr[subArr.length-1];
-      let firstElem = subArr[0];
-      for (let j=0; j< subArr.length; j++) {
-        if (!version2[firstElem]) {
-          version2[firstElem] = null;
-        }
-        if (version2.hasOwnProperty(lastElem) && version2[lastElem] === null) {
-          version2[lastElem] = subArr.slice(0, -1);
-        }
-      }
-    }
-    // console.log('HEEEEEEY', JSON.stringify(version2));
-    // console.log('ARRAY: ', flatteningNestedArray);
+    
     return (
       <div>
         <ReduxInterface
@@ -215,7 +182,7 @@ class ReduxTree extends Component {
                         treeData: state.treeData,
                         path,
                         getNodeKey,
-                        newNode: { node, name},
+                        newNode: { ...node, name},
                       }),
                     }));
                   }}
