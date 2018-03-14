@@ -26,7 +26,7 @@ export function generateCode(data) {
   let code = '';
   for (let i = 0; i < keys.length; i++) {
     code += "import React, { Component } from 'react';\n\n"
-    code += `class extends ${keys[i]} {\n`;
+    code += `class ${keys[i]} extends Component {\n`;
     code += '  render() {\n';
     code += '    return (\n';
     code += '      <div>\n';
