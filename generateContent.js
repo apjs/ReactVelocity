@@ -29,7 +29,7 @@ export function generateCode(data) {
     if (data[keys[i]]) {
       console.log(data[keys[i]]);
       for (let k=0; k < data[keys[i]].length; k++) {
-        code += `import ${data[keys[i]][k]} from '/${data[keys[i]][k]}';\n`;
+        code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
       }
     }
     code += '\n';
