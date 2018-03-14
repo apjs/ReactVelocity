@@ -197,7 +197,6 @@ class ReactTree extends Component {
               ),
               buttons: [
                 <button
-                value="anything"
                 onClick={this.toggleStateButton}>
                 {this.state.isToggleOn? 'stateful': 'stateless'}
               </button>,
