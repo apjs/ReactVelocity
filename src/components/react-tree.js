@@ -13,7 +13,7 @@ class ReactTree extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ 
+      treeData: [{
         name: 'App',
         isStateful: true,
       }],
@@ -227,10 +227,6 @@ class ReactTree extends Component {
                     }),
                   }))
                 }}>{node.isStateful ? 'Stateful' : 'Stateless'}</button>,
-                <button
-                onClick={this.toggleStateButton}>
-                {this.state.isToggleOn? 'stateful': 'stateless'}
-              </button>,
                 <button
                 onClick={() =>
                   this.setState(state => ({
