@@ -13,13 +13,17 @@ class ReactTree extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ name: 'App'}],
+      treeData: [{ 
+        name: 'App',
+        isStateful: true,
+      }],
       flattenedData: ['App'],
       textFieldValue: '',
       flattenedArray: [],
       error: '',
       version2: {},
     };
+    this.stateful = this.stateful.bind(this);
     this.formatName = this.formatName.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     this.concatNewComponent = this.concatNewComponent.bind(this);
@@ -30,6 +34,19 @@ class ReactTree extends Component {
     this.handleExport = this.handleExport.bind(this);
     this.exportZipFiles = this.exportZipFiles.bind(this);
   }
+
+  stateful(node,path,getNodeKey) {
+    if (!('isStateful' in node)) {
+    this.setState(state => ({
+       treeData: changeNodeAtPath({
+         treeData: state.treeData,
+         path,
+         getNodeKey,
+         newNode: { ...node, isStateful:true }
+       })
+     }))
+   }
+   }
 
   formatName(textField) {
     let scrubbedResult = textField
@@ -149,6 +166,8 @@ class ReactTree extends Component {
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
+    let isStateful = true;
+    console.log(this.state.treeData);
 
     return (
       <div>
@@ -187,7 +206,19 @@ class ReactTree extends Component {
                   }}
                 />
               ),
+              stateful: this.stateful(node,path,getNodeKey),
               buttons: [
+                <button onClick={()=> {
+                  node.isStateful ? isStateful = false : isStateful = true;
+                  this.setState(state => ({
+                    treeData: changeNodeAtPath({
+                      treeData: state.treeData,
+                      path,
+                      getNodeKey,
+                      newNode: { ...node, isStateful:isStateful },
+                    }),
+                  }))
+                }}>{node.isStateful ? 'Stateful' : 'Stateless'}</button>,
                 <button
                 onClick={() => 
                   this.setState(state => ({
