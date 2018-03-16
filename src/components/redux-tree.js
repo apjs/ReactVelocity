@@ -29,14 +29,15 @@ class ReduxTree extends Component {
       version2: {},
       parents: [],
     };
-    this.formatName = this.formatName.bind(this);
+    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
+    this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
     this.createCodeForGenerateContent = this.createCodeForGenerateContent.bind(this);
     this.handleExport = this.handleExport.bind(this);
     this.exportZipFiles = this.exportZipFiles.bind(this);
-    this.createParents = this.createParents.bind(this);
+    this.toggleStateButton = this.toggleStateButton.bind(this);
   }
 
   formatName(textField) {
@@ -55,7 +56,25 @@ class ReduxTree extends Component {
     return scrubbedResult;
   }
 
+  handleTextFieldChange(e){
+    this.setState({
+      textFieldValue: e.target.value,
+    });
+  }
 
+  concatNewComponent() {
+    if(this.state.textFieldValue !== '') {
+      this.setState(state => ({
+        treeData: state.treeData.concat({
+          name: this.formatName(this.state.textFieldValue),
+        }),
+        error: "",
+      }))
+    } else {(this.setState(state => ({
+        error: "This field is required"
+      })
+    ))}
+  }
 
   updateFlattenedData() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
@@ -75,7 +94,6 @@ class ReduxTree extends Component {
     // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
     const that = this;
     setTimeout(function(){that.updateFlattenedData()},100);
-    setTimeout(function(){that.createParents()},150);
   };
 
   onKeyPress(e) {
@@ -84,7 +102,6 @@ class ReduxTree extends Component {
       // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
       const that = this;
       setTimeout(function(){that.updateFlattenedData()},100);
-      setTimeout(function(){that.createParents()},150);
     }
   }
 
@@ -95,9 +112,11 @@ class ReduxTree extends Component {
     let version1 = [];
     let version2 = {};
     for(let i = 0; i<flattenedVar.length; i++) {
+
       let val = (flattenedVar[i].parentNode) ? flattenedVar[i].parentNode.name : null;
       version1.push([flattenedVar[i].node.name, val]);
     }
+
     for (let i=0; i< version1.length; i++) {
       let subArr = version1[i];
       let lastElem = subArr[subArr.length-1];
@@ -122,7 +141,6 @@ class ReduxTree extends Component {
     for (let i=0; i<fileNames.length;i++) {
       zip.file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
     }
-    // zip.file('paul.js', contents, {base64: false});
       zip.generateAsync({type:"base64"}).then(function (base64) {
       location.href="data:application/zip;base64," + base64;
     });
@@ -134,21 +152,14 @@ class ReduxTree extends Component {
     setTimeout(() => {that.handleExport()}, 100);
   }
 
-  createParents() {
-    const getNodeKey = ({ treeIndex }) => treeIndex;
-    const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.name
-    });
-    const parents = flattenedArray.map((parent, index) => {
-      return <MenuItem key={index} value={index} primaryText={parent} />
-    });
-    this.setState({parents: parents});
-  }
-
   componentDidMount() {
     this.updateFlattenedData();
-    this.createParents();
+  }
+
+  toggleStateButton() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
   }
 
   render() {
@@ -199,23 +210,6 @@ class ReduxTree extends Component {
                 />
               ),
               buttons: [
-                <button
-                onClick={() =>
-                  this.setState(state => ({
-                    treeData: addNodeUnderParent({
-                      treeData: state.treeData,
-                      parentKey: path[path.length - 1],
-                      expandParent: true,
-                      getNodeKey,
-                      newNode: {
-                        name: '',
-                      },
-                    }).treeData,
-                  }))
-                }
-              >
-                Add Child
-              </button>,
                 <button
                   onClick={() =>
                     this.setState(state => ({
