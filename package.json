@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack"
   },
   "author": "",
@@ -16,6 +16,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.9",
+    "html-webpack-plugin": "^3.0.6",
     "jszip": "^3.1.5",
     "material-ui": "^0.20.0",
     "react": "^16.2.0",
@@ -27,6 +28,7 @@
     "webpack-dev-server": "^2.11.1"
   },
   "devDependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.26.0"
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "jest": "^23.0.0-alpha.0"
   }
 }
