@@ -8,8 +8,6 @@ import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-//Select Field
-import SelectField from 'material-ui/SelectField';
 //Text Field
 import TextField from 'material-ui/TextField';
 
@@ -60,7 +58,7 @@ class ReduxInterface extends Component {
         />
         <Drawer
           docked={false}
-          width={200}
+          width={150}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
@@ -73,6 +71,22 @@ class ReduxInterface extends Component {
                 <FlatButton label="Redux" secondary={true} />
               </Link>
             </CardActions>
+          </Card>
+          <Card>
+            <CardActions>
+              <TextField
+                floatingLabelText="Child"
+                floatingLabelFixed={true}
+                errorText={this.props.error}
+                value={this.props.textFieldValue}
+                onChange={this.props.handleTextFieldChange}
+                onKeyPress={this.props.onKeyPress}
+                style= {{width: 135}}/>
+            </CardActions>
+            <RaisedButton
+              label="Add Child"
+              style={style}
+              onClick={this.props.onButtonPress}/>
           </Card>
         </Drawer>
       </div>
