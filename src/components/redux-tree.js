@@ -17,7 +17,11 @@ class ReduxTree extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ name: 'Actions'},{ name: 'Reducers'},{ name: 'Containers'},{ name: 'Components'}],
+      treeData: [
+        { name: 'Actions', parent: true},
+        { name: 'Reducers', parent: true},
+        { name: 'Containers', parent: true},
+        { name: 'Components', parent: true}],
       flattenedData: ['App','Reducers','Containers','Components'],
       textFieldValue: '',
       flattenedArray: [],
@@ -149,7 +153,12 @@ class ReduxTree extends Component {
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
-
+    const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
+      if (node.parent) {
+        return false;
+      }
+      return true;
+    };
     return (
       <div>
         <ReduxInterface
@@ -169,6 +178,7 @@ class ReduxTree extends Component {
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
+            canDrop={canDrop}
             generateNodeProps={({ node, path }) => ({
               title: (
                 <input

@@ -15,6 +15,7 @@ class ReactTree extends Component {
     this.state = {
       treeData: [{
         name: 'App',
+        parent: true,
         isStateful: true,
       }],
       flattenedData: ['App'],
@@ -175,7 +176,12 @@ class ReactTree extends Component {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     let isStateful = true;
-    console.log(this.state.treeData);
+    const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
+      if (node.parent) {
+        return false;
+      }
+      return true;
+    };
 
     return (
       <div>
@@ -195,6 +201,7 @@ class ReactTree extends Component {
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
+            canDrop={canDrop}
             generateNodeProps={({ node, path }) => ({
               title: (
                 <input
