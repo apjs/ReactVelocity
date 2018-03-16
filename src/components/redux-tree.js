@@ -8,7 +8,8 @@ import 'react-sortable-tree/style.css';
 import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
 import ReduxInterface from './redux-interface';
-import { generateCode, version2 } from '../../generateContent';
+import generateReduxIndexJS from './../../generateContents/redux-index';
+import generateIndexHTML from './../../generateContents/index-html';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -116,17 +117,15 @@ class ReduxTree extends Component {
     });
   }
 }
-  handleExport() {
-    const files = generateCode(this.state.version2);
-    let fileNames = Object.keys(files);
-    for (let i=0; i<fileNames.length;i++) {
-      zip.file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
-    }
-    // zip.file('paul.js', contents, {base64: false});
-      zip.generateAsync({type:"base64"}).then(function (base64) {
-      location.href="data:application/zip;base64," + base64;
-    });
-  }
+handleExport() {
+  const index = generateReduxIndexJS();
+  const html = generateIndexHTML();
+  zip.file('index.js', index, {base64: false});
+  zip.file('index.html', html, {base64: false});
+    zip.generateAsync({type:"base64"}).then(function (base64) {
+    location.href="data:application/zip;base64," + base64;
+  });
+}
 
   exportZipFiles() {
     this.createCodeForGenerateContent();

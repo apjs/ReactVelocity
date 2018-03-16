@@ -28,7 +28,6 @@
     "webpack-dev-server": "^2.11.1"
   },
   "devDependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "jest": "^23.0.0-alpha.0"
+    "babel-plugin-transform-object-rest-spread": "^6.26.0"
   }
 }
