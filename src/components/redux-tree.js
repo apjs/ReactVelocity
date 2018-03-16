@@ -159,7 +159,6 @@ class ReduxTree extends Component {
       }
       return true;
     };
-    
     return (
       <div>
         <ReduxInterface
