@@ -149,7 +149,7 @@ class ReduxTree extends Component {
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
-    
+
     return (
       <div>
         <ReduxInterface

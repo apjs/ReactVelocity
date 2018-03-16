@@ -4,7 +4,7 @@ import 'react-sortable-tree/style.css';
 import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
 import ReactInterface from './react-interface';
-import { generateCode, version2 } from '../../generateContent';
+import { generateCode } from '../../generateContent';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
