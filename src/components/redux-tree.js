@@ -18,7 +18,7 @@ class ReduxTree extends Component {
 
     this.state = {
       treeData: [{ name: 'Actions'},{ name: 'Reducers'},{ name: 'Containers'},{ name: 'Components'}],
-      flattenedData: ['App','Reducers','Containers','Componentss'],
+      flattenedData: ['App','Reducers','Containers','Components'],
       textFieldValue: '',
       flattenedArray: [],
       error: '',
@@ -182,7 +182,7 @@ class ReduxTree extends Component {
                         treeData: state.treeData,
                         path,
                         getNodeKey,
-                        newNode: { node, name},
+                        newNode: { ...node, name},
                       }),
                     }));
                   }}

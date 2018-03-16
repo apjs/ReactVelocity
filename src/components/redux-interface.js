@@ -31,7 +31,7 @@ const styles = {
     },
   };
 
-class ReduxTree extends Component {
+class ReduxInterface extends Component {
 
   constructor(props) {
     super(props);
@@ -79,4 +79,4 @@ class ReduxTree extends Component {
     );
   }
 }
-export default ReduxTree;
+export default ReduxInterface;
