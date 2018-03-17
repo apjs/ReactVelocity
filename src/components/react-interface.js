@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-//AppBar & Card
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardTitle} from 'material-ui/Card';
-//Drawer
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-//Text Field
 import TextField from 'material-ui/TextField';
-
-
 
 const style = {
   margin: 12,
@@ -58,22 +53,22 @@ class ReactInterface extends Component {
             </div>
             }
         />
+        <Card>
+          <CardActions>
+            <Link to="/">
+              <FlatButton label="React" primary={true} />
+            </Link>
+            <Link to="/redux">
+              <FlatButton label="Redux" secondary={true} />
+            </Link>
+          </CardActions>
+        </Card>
         <Drawer
           docked={false}
           width={150}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <Card>
-            <CardActions>
-              <Link to="/">
-                <FlatButton label="React" primary={true} />
-              </Link>
-              <Link to="/redux">
-                <FlatButton label="Redux" secondary={true} />
-              </Link>
-            </CardActions>
-          </Card>
           <Card>
             <CardActions>
               <TextField

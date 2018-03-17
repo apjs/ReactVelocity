@@ -18,7 +18,6 @@ class ReactTree extends Component {
         parent: true,
         isStateful: true,
       }],
-      flattenedData: ['App'],
       textFieldValue: '',
       flattenedArray: [],
       error: '',
@@ -90,11 +89,7 @@ class ReactTree extends Component {
   updateFlattenedData() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.name
-    });
     this.setState(state => ({
-      flattenedData: flattenedArray,
       flattenedArray: flatteningNestedArray,
       textFieldValue: '',
     }))
@@ -185,7 +180,6 @@ class ReactTree extends Component {
       <div>
         <ReactInterface
           treeData={this.state.treeData}
-          flattenedData={this.state.flattenedData}
           textFieldValue={this.state.textFieldValue}
           flattenedArray = {this.state.flattenedArray}
           error={this.state.error}
