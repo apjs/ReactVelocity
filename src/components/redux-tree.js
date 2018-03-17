@@ -19,21 +19,31 @@ class ReduxTree extends Component {
 
     this.state = {
       treeData: [
-        { name: 'Actions', parent: true},
-        { name: 'Reducers', parent: true},
-        { name: 'Containers', parent: true},
-        { name: 'Components', parent: true}],
+        { name: 'Actions', defaultType: '', parent: true},
+        { name: 'Reducers', defaultType: '', parent: true},
+        { name: 'Containers', defaultType: '', parent: true},
+        { name: 'Components', defaultType: '', parent: true}],
+      value: 'Action',
       actionName: '',
       actionType: '',
-      flattenedData: ['App','Reducers','Containers','Components'],
+      reducerName: '',
+      reducerCase: '',
+      componentName: '',
+      actionError: '',
+      reducerNameError: '',
+      reducerCaseError: '',
+      componentNameError: '',
       flattenedArray: [],
-      error: '',
       version2: {},
       parents: [],
     };
-    this.actionFormatName = this.actionFormatName.bind(this);
-    this.actionFormatType = this.actionFormatType.bind(this);
-    this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
+    this.camelCaseFormat = this.camelCaseFormat.bind(this);
+    this.allCapSnakeCaseFormat = this.allCapSnakeCaseFormat.bind(this);
+    this.actionHandleTextFieldChange = this.actionHandleTextFieldChange.bind(this);
+    this.reducerNameHandleTextFieldChange = this.reducerNameHandleTextFieldChange.bind(this);
+    this.reducerCaseHandleTextFieldChange = this.reducerCaseHandleTextFieldChange.bind(this);
+    this.componentNameHandleTextFieldChange = this.componentNameHandleTextFieldChange.bind(this);
+    this.chooseFileType = this.chooseFileType.bind(this);
     this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
     this.onButtonPress = this.onButtonPress.bind(this);
@@ -42,9 +52,10 @@ class ReduxTree extends Component {
     this.handleExport = this.handleExport.bind(this);
     this.exportZipFiles = this.exportZipFiles.bind(this);
     this.toggleStateButton = this.toggleStateButton.bind(this);
+    this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
   }
 
-  actionFormatName(textField) {
+  camelCaseFormat(textField) {
     let scrubbedResult = textField
     // Capitalize first letter of each word and removes spaces.
     //| \ = matches | \w = any alphanumeric | \S = single char except white space
@@ -60,7 +71,7 @@ class ReduxTree extends Component {
     return scrubbedResult;
   }
 
-  actionFormatType(textField) {
+  allCapSnakeCaseFormat(textField) {
     let scrubbedResult = textField
       .replace(/\w\S*/g, function(txt){return '_' + txt.substr(0);})
       .replace(/\ +/g, x => '')
@@ -69,24 +80,87 @@ class ReduxTree extends Component {
     return scrubbedResult;
   }
 
-  handleTextFieldChange(e){
+  actionHandleTextFieldChange(e){
     this.setState({
       actionName: e.target.value,
       actionType: e.target.value,
+      
     });
   }
 
+  reducerNameHandleTextFieldChange(e){
+    this.setState({
+      reducerName: e.target.value,
+    });
+  }
+
+  reducerCaseHandleTextFieldChange(e){
+    this.setState({
+      reducerCase: e.target.value,
+    });
+  }
+
+  componentNameHandleTextFieldChange(e){
+    this.setState({
+      componentName: e.target.value,
+    });
+  }
+
+  chooseFileType() {
+    if (this.state.value === "Action") {
+      return "Action"
+    }
+    if (this.state.value === "Reducer") {
+      return "Reducer"
+    }
+    if (this.state.value === "Container") {
+      return "Container"
+    }
+    if (this.state.value === "Component") {
+      return "Component"
+    }
+  }
+
   concatNewComponent() {
-    if(this.state.actionName !== '' || this.state.actionType !== '' ) {
+    if(this.state.actionName !== '' && this.state.actionType !== '' && this.state.value === 'Action' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
-          name: this.actionFormatName(this.state.actionName),
-          type: this.actionFormatType(this.state.actionType),
+          name: this.camelCaseFormat(this.state.actionName),
+          type: this.allCapSnakeCaseFormat(this.state.actionType),
+          componentType: this.chooseFileType(),
         }),
-        error: "",
+        actionError: "",
       }))
-    } else {(this.setState(state => ({
-        error: "This field is required"
+    } else if(this.state.reducerName !== '' && this.state.reducerCase !== '' && this.state.value === 'Reducer' ) {
+      this.setState(state => ({
+        treeData: state.treeData.concat({
+          name: this.camelCaseFormat(this.state.reducerName),
+          case: this.allCapSnakeCaseFormat(this.state.reducerCase),
+          componentType: this.chooseFileType(),
+        }),
+        reducerNameError: "",
+        reducerCaseError: "",
+      })) 
+    } else if(this.state.componentName !== '' && this.state.value === 'Component' ) {
+      this.setState(state => ({
+        treeData: state.treeData.concat({
+          name: this.camelCaseFormat(this.state.componentName),
+          componentType: this.chooseFileType(),
+        }),
+        componentNameError: "",
+      }))   
+    } else if (this.state.value === 'Action'){(
+        this.setState(state => ({
+          actionError: "This field is required."
+      })
+    ))} else if (this.state.value === 'Reducer'){(
+          this.setState(state => ({
+            reducerNameError: "These fields are required.",
+            reducerCaseError: "These fields are required."
+      })
+    ))} else if (this.state.value === 'Component'){(
+      this.setState(state => ({
+        componentNameError: "This field is required.",
       })
     ))}
   }
@@ -94,14 +168,12 @@ class ReduxTree extends Component {
   updateFlattenedData() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.name
-    });
     this.setState(state => ({
-      flattenedData: flattenedArray,
       flattenedArray: flatteningNestedArray,
       actionName: '',
       actionType: '',
+      reducerName: '',
+      reducerCase: '',
     }))
   }
 
@@ -113,7 +185,7 @@ class ReduxTree extends Component {
   };
 
   onKeyPress(e) {
-    if(e.key == 'Enter') {
+    if(e.key === 'Enter') {
       this.concatNewComponent();
       // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
       const that = this;
@@ -152,15 +224,15 @@ class ReduxTree extends Component {
   }
 }
 
-handleExport() {
-  const index = generateReduxIndexJS();
-  const html = generateIndexHTML();
-  zip.file('index.js', index, {base64: false});
-  zip.file('index.html', html, {base64: false});
-    zip.generateAsync({type:"base64"}).then(function (base64) {
-    location.href="data:application/zip;base64," + base64;
-  });
-}
+  handleExport() {
+    const index = generateReduxIndexJS();
+    const html = generateIndexHTML();
+    zip.file('index.js', index, {base64: false});
+    zip.file('index.html', html, {base64: false});
+      zip.generateAsync({type:"base64"}).then(function (base64) {
+      location.href="data:application/zip;base64," + base64;
+    });
+  }
 
   exportZipFiles() {
     this.createCodeForGenerateContent();
@@ -173,6 +245,15 @@ handleExport() {
       isToggleOn: !prevState.isToggleOn
     }));
   }
+  
+  handleChangeSelectField(event, index, value) {
+    this.setState({
+      value,
+      actionError: '',
+      reducerNameError: '',
+      reducerCaseError: '',
+    })
+  };
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
@@ -188,18 +269,27 @@ handleExport() {
       <div>
         <ReduxInterface
           treeData={this.state.treeData}
-          flattenedData={this.state.flattenedData}
+          value={this.state.value}
           actionName={this.state.actionName}
           actionType={this.state.actionType}
+          reducerName={this.state.reducerName}
+          reducerCase={this.state.reducerCase}
+          componentName={this.state.componentName}
           flattenedArray = {this.state.flattenedArray}
-          error={this.state.error}
+          actionError={this.state.actionError}
+          reducerNameError={this.state.reducerNameError}
+          reducerCaseError={this.state.reducerCaseError}
+          componentNameError={this.state.componentNameError}
           parents={this.state.parents}
-          formatName={this.formatName}
-          handleTextFieldChange={this.handleTextFieldChange}
+          actionHandleTextFieldChange={this.actionHandleTextFieldChange}
+          reducerNameHandleTextFieldChange={this.reducerNameHandleTextFieldChange}
+          reducerCaseHandleTextFieldChange={this.reducerCaseHandleTextFieldChange}
+          componentNameHandleTextFieldChange={this.componentNameHandleTextFieldChange}
           updateFlattenedData={this.updateFlattenedData}
           onButtonPress={this.onButtonPress}
           onKeyPress={this.onKeyPress}
-          exportZipFiles={this.exportZipFiles}/>
+          exportZipFiles={this.exportZipFiles}
+          handleChangeSelectField={this.handleChangeSelectField}/>
         <div style={{ height: 700 }}>
           <SortableTree
             treeData={this.state.treeData}
@@ -225,6 +315,9 @@ handleExport() {
                 />
               ),
               buttons: [
+                <button>
+                  {node.defaultType === '' ? 'Do Not Remove' : node.componentType}
+                </button>,
                 <button
                   onClick={() =>
                     this.setState(state => ({
