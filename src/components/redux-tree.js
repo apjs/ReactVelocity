@@ -54,6 +54,7 @@ class ReduxTree extends Component {
     this.exportZipFiles = this.exportZipFiles.bind(this);
     this.toggleStateButton = this.toggleStateButton.bind(this);
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
+    this.reducerCaseToArray = this.reducerCaseToArray.bind(this);
   }
 
   camelCaseFormat(textField) {
@@ -79,6 +80,14 @@ class ReduxTree extends Component {
       .replace(/^_/g, x => '')
       .replace(/\w/g, x => x.toUpperCase())
     return scrubbedResult;
+  }
+
+  reducerCaseToArray(textfield){
+    let splitTextField = textfield.split(/,/)
+    let scrubbedArray = splitTextField.map(ele => {
+      return this.allCapSnakeCaseFormat(ele)
+    }) 
+    return scrubbedArray;
   }
 
   actionHandleTextFieldChange(e){
@@ -136,7 +145,7 @@ class ReduxTree extends Component {
       this.setState(state => ({
         treeData: state.treeData.concat({
           name: this.camelCaseFormat(this.state.reducerName),
-          case: this.allCapSnakeCaseFormat(this.state.reducerCase),
+          case: this.reducerCaseToArray(this.state.reducerCase),
           componentType: this.chooseFileType(),
         }),
         reducerNameError: "",
