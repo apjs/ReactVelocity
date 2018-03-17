@@ -10,6 +10,7 @@ import MenuItem from 'material-ui/MenuItem';
 import ReduxInterface from './redux-interface';
 import generateReduxIndexJS from './../../generateContents/redux-index';
 import generateIndexHTML from './../../generateContents/index-html';
+import generateActionCreators from './../../generateContents/redux-generate-action-creators';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -224,15 +225,20 @@ class ReduxTree extends Component {
   }
 }
 
-  handleExport() {
-    const index = generateReduxIndexJS();
-    const html = generateIndexHTML();
-    zip.file('index.js', index, {base64: false});
-    zip.file('index.html', html, {base64: false});
-      zip.generateAsync({type:"base64"}).then(function (base64) {
-      location.href="data:application/zip;base64," + base64;
-    });
-  }
+
+handleExport() {
+  const getNodeKey = ({ treeIndex }) => treeIndex;
+  const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+  const index = generateReduxIndexJS();
+  const html = generateIndexHTML();
+  const actions = generateActionCreators(flattenedArray);
+  zip.file('index.js', index, {base64: false});
+  zip.file('index.html', html, {base64: false});
+  zip.file('actionTypes.js', actions , {base64: false});
+  zip.generateAsync({type:"base64"}).then(function (base64) {
+  location.href="data:application/zip;base64," + base64;
+  });
+}
 
   exportZipFiles() {
     this.createCodeForGenerateContent();
@@ -258,7 +264,6 @@ class ReduxTree extends Component {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log(flattenedArray);
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
