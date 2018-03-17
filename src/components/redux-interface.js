@@ -44,29 +44,33 @@ class ReduxInterface extends Component {
     return (
       <div>
         <AppBar
-          iconElementLeft={<FlatButton label="Menu" onClick={this.handleToggle} />}
+          iconElementLeft={
+            <div>
+              <FlatButton label="Menu" onClick={this.handleToggle} />
+            </div>
+          }
           iconElementRight={
             <div>
               <FlatButton onClick={this.props.exportZipFiles} label="Export" />
-            </div>
-            }
+            </div>  
+          }
         />
+         <Card>
+          <CardActions>
+            <Link to="/">
+              <FlatButton label="React" primary={true} />
+            </Link>
+            <Link to="/redux">
+              <FlatButton label="Redux" secondary={true} />
+            </Link>
+          </CardActions>
+        </Card>
         <Drawer
           docked={false}
           width={150}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <Card>
-            <CardActions>
-              <Link to="/">
-                <FlatButton label="React" primary={true} />
-              </Link>
-              <Link to="/redux">
-                <FlatButton label="Redux" secondary={true} />
-              </Link>
-            </CardActions>
-          </Card>
           <Card>
             <CardActions>
               <SelectField
@@ -115,6 +119,18 @@ class ReduxInterface extends Component {
                 errorText={this.props.reducerCaseError}
                 value={this.props.reducerCase}
                 onChange={this.props.reducerCaseHandleTextFieldChange}
+                onKeyPress={this.props.onKeyPress}
+                style= {{width: 135}}/>
+            </CardActions>
+          </Card>
+          <Card>
+            <CardActions>
+              <TextField
+                floatingLabelText="Component: Name"
+                floatingLabelFixed={true}
+                errorText={this.props.componentNameError}
+                value={this.props.componentName}
+                onChange={this.props.componentNameHandleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}
                 style= {{width: 135}}/>
             </CardActions>

@@ -28,10 +28,11 @@ class ReduxTree extends Component {
       actionType: '',
       reducerName: '',
       reducerCase: '',
-      componentType: '',
+      componentName: '',
       actionError: '',
       reducerNameError: '',
       reducerCaseError: '',
+      componentNameError: '',
       flattenedArray: [],
       version2: {},
       parents: [],
@@ -41,6 +42,7 @@ class ReduxTree extends Component {
     this.actionHandleTextFieldChange = this.actionHandleTextFieldChange.bind(this);
     this.reducerNameHandleTextFieldChange = this.reducerNameHandleTextFieldChange.bind(this);
     this.reducerCaseHandleTextFieldChange = this.reducerCaseHandleTextFieldChange.bind(this);
+    this.componentNameHandleTextFieldChange = this.componentNameHandleTextFieldChange.bind(this);
     this.chooseFileType = this.chooseFileType.bind(this);
     this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
@@ -98,23 +100,29 @@ class ReduxTree extends Component {
     });
   }
 
+  componentNameHandleTextFieldChange(e){
+    this.setState({
+      componentName: e.target.value,
+    });
+  }
+
   chooseFileType() {
-    if (this.state.value == "Action") {
+    if (this.state.value === "Action") {
       return "Action"
     }
-    if (this.state.value == "Reducer") {
+    if (this.state.value === "Reducer") {
       return "Reducer"
     }
-    if (this.state.value == "Container") {
+    if (this.state.value === "Container") {
       return "Container"
     }
-    if (this.state.value == "Component") {
+    if (this.state.value === "Component") {
       return "Component"
     }
   }
 
   concatNewComponent() {
-    if(this.state.actionName !== '' && this.state.actionType !== '' && this.state.value == 'Action' ) {
+    if(this.state.actionName !== '' && this.state.actionType !== '' && this.state.value === 'Action' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
           name: this.camelCaseFormat(this.state.actionName),
@@ -123,7 +131,7 @@ class ReduxTree extends Component {
         }),
         actionError: "",
       }))
-    } else if(this.state.reducerName !== '' && this.state.reducerCase !== '' && this.state.value == 'Reducer' ) {
+    } else if(this.state.reducerName !== '' && this.state.reducerCase !== '' && this.state.value === 'Reducer' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
           name: this.camelCaseFormat(this.state.reducerName),
@@ -132,14 +140,29 @@ class ReduxTree extends Component {
         }),
         reducerNameError: "",
         reducerCaseError: "",
-      })) }
-    // } else {
-    //     if(this.state.value == 'Action'){(
-    //       this.setState(state => ({
-    //         actionError: "This field is required."
-    //     })
-    //   ))}
-    // }
+      })) 
+    } else if(this.state.componentName !== '' && this.state.value === 'Component' ) {
+      this.setState(state => ({
+        treeData: state.treeData.concat({
+          name: this.camelCaseFormat(this.state.componentName),
+          componentType: this.chooseFileType(),
+        }),
+        componentNameError: "",
+      }))   
+    } else if (this.state.value === 'Action'){(
+        this.setState(state => ({
+          actionError: "This field is required."
+      })
+    ))} else if (this.state.value === 'Reducer'){(
+          this.setState(state => ({
+            reducerNameError: "These fields are required.",
+            reducerCaseError: "These fields are required."
+      })
+    ))} else if (this.state.value === 'Component'){(
+      this.setState(state => ({
+        componentNameError: "This field is required.",
+      })
+    ))}
   }
 
   updateFlattenedData() {
@@ -162,7 +185,7 @@ class ReduxTree extends Component {
   };
 
   onKeyPress(e) {
-    if(e.key == 'Enter') {
+    if(e.key === 'Enter') {
       this.concatNewComponent();
       // using setTimeout breaks binding, so use a variable to store this to give to the function when it runs
       const that = this;
@@ -223,7 +246,14 @@ class ReduxTree extends Component {
     }));
   }
   
-  handleChangeSelectField(event, index, value) {this.setState({value})};
+  handleChangeSelectField(event, index, value) {
+    this.setState({
+      value,
+      actionError: '',
+      reducerNameError: '',
+      reducerCaseError: '',
+    })
+  };
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
@@ -244,14 +274,17 @@ class ReduxTree extends Component {
           actionType={this.state.actionType}
           reducerName={this.state.reducerName}
           reducerCase={this.state.reducerCase}
+          componentName={this.state.componentName}
           flattenedArray = {this.state.flattenedArray}
           actionError={this.state.actionError}
-          reducerNameError={this.reducerNameError}
-          reducerCaseError={this.reducerCaseError}
+          reducerNameError={this.state.reducerNameError}
+          reducerCaseError={this.state.reducerCaseError}
+          componentNameError={this.state.componentNameError}
           parents={this.state.parents}
           actionHandleTextFieldChange={this.actionHandleTextFieldChange}
           reducerNameHandleTextFieldChange={this.reducerNameHandleTextFieldChange}
           reducerCaseHandleTextFieldChange={this.reducerCaseHandleTextFieldChange}
+          componentNameHandleTextFieldChange={this.componentNameHandleTextFieldChange}
           updateFlattenedData={this.updateFlattenedData}
           onButtonPress={this.onButtonPress}
           onKeyPress={this.onKeyPress}
@@ -283,7 +316,7 @@ class ReduxTree extends Component {
               ),
               buttons: [
                 <button>
-                  {node.defaultType == '' ? 'Do Not Remove' : node.componentType}
+                  {node.defaultType === '' ? 'Do Not Remove' : node.componentType}
                 </button>,
                 <button
                   onClick={() =>

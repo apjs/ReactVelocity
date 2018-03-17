@@ -53,22 +53,22 @@ class ReactInterface extends Component {
             </div>
             }
         />
+        <Card>
+          <CardActions>
+            <Link to="/">
+              <FlatButton label="React" primary={true} />
+            </Link>
+            <Link to="/redux">
+              <FlatButton label="Redux" secondary={true} />
+            </Link>
+          </CardActions>
+        </Card>
         <Drawer
           docked={false}
           width={150}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <Card>
-            <CardActions>
-              <Link to="/">
-                <FlatButton label="React" primary={true} />
-              </Link>
-              <Link to="/redux">
-                <FlatButton label="Redux" secondary={true} />
-              </Link>
-            </CardActions>
-          </Card>
           <Card>
             <CardActions>
               <TextField
