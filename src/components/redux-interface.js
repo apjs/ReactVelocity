@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-//AppBar & Card
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardTitle} from 'material-ui/Card';
-//Drawer
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-//Text Field
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
 
 const style = {
   margin: 12,
@@ -37,13 +35,10 @@ class ReduxInterface extends Component {
       open: false,
     };
     this.handleToggle = this.handleToggle.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   //Toggle = Drawer
   handleToggle(){ this.setState({open: !this.state.open})};
-  //Change = Select Field
-  handleChange(event, index, value) {this.setState({value})};
 
   render() {    
     return (
@@ -74,19 +69,63 @@ class ReduxInterface extends Component {
           </Card>
           <Card>
             <CardActions>
-              <TextField
-                floatingLabelText="Action Creator"
+              <SelectField
+                floatingLabelText="File Type"
                 floatingLabelFixed={true}
-                errorText={this.props.error}
+                style= {{width: 135}}
+                value={this.props.value}
+                onChange={this.props.handleChangeSelectField}
+              >
+                <MenuItem value={"Action"} primaryText="Action" />
+                <MenuItem value={"Reducer"} primaryText="Reducer" />
+                <MenuItem value={"Container"} primaryText="Container" />
+                <MenuItem value={"Component"} primaryText="Component" />
+              </SelectField>
+            </CardActions>
+          </Card>
+          <Card>
+            <CardActions>
+              <TextField
+                floatingLabelText="Action: Name"
+                floatingLabelFixed={true}
+                errorText={this.props.actionError}
                 value={this.props.actionName}
-                onChange={this.props.handleTextFieldChange}
+                onChange={this.props.actionHandleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}
                 style= {{width: 135}}/>
             </CardActions>
-            <RaisedButton
-              label="Add Action"
-              style={style}
-              onClick={this.props.onButtonPress}/>
+          </Card>
+          <Card>
+            <CardActions>
+              <TextField
+                floatingLabelText="Reducer: Name"
+                floatingLabelFixed={true}
+                errorText={this.props.reducerNameError}
+                value={this.props.reducerName}
+                onChange={this.props.reducerNameHandleTextFieldChange}
+                onKeyPress={this.props.onKeyPress}
+                style= {{width: 135}}/>
+            </CardActions>
+          </Card>
+          <Card>
+            <CardActions>
+              <TextField
+                floatingLabelText="Reducer: Case"
+                floatingLabelFixed={true}
+                errorText={this.props.reducerCaseError}
+                value={this.props.reducerCase}
+                onChange={this.props.reducerCaseHandleTextFieldChange}
+                onKeyPress={this.props.onKeyPress}
+                style= {{width: 135}}/>
+            </CardActions>
+          </Card>
+          <Card>
+            <CardActions>
+              <RaisedButton
+                label="Add File"
+                style={style}
+                onClick={this.props.onButtonPress}/>
+            </CardActions>  
           </Card>
         </Drawer>
       </div>

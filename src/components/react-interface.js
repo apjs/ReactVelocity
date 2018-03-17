@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-//AppBar & Card
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardTitle} from 'material-ui/Card';
-//Drawer
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-//Text Field
 import TextField from 'material-ui/TextField';
-
-
 
 const style = {
   margin: 12,
