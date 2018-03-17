@@ -163,9 +163,9 @@ class ReactTree extends Component {
     setTimeout(() => {that.handleExport()}, 100);
   }
 
-  componentDidMount() {
-    this.updateFlattenedData();
-  }
+  // componentDidMount() {
+  //   this.updateFlattenedData();
+  // }
 
   toggleStateButton() {
     this.setState(prevState => ({
@@ -175,6 +175,8 @@ class ReactTree extends Component {
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
+    const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+    console.log(flattenedArray);
     let isStateful = true;
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
