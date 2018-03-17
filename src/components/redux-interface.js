@@ -75,16 +75,16 @@ class ReduxInterface extends Component {
           <Card>
             <CardActions>
               <TextField
-                floatingLabelText="Child"
+                floatingLabelText="Action Creator"
                 floatingLabelFixed={true}
                 errorText={this.props.error}
-                value={this.props.textFieldValue}
+                value={this.props.actionName}
                 onChange={this.props.handleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}
                 style= {{width: 135}}/>
             </CardActions>
             <RaisedButton
-              label="Add Child"
+              label="Add Action"
               style={style}
               onClick={this.props.onButtonPress}/>
           </Card>

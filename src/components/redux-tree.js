@@ -23,13 +23,16 @@ class ReduxTree extends Component {
         { name: 'Reducers', parent: true},
         { name: 'Containers', parent: true},
         { name: 'Components', parent: true}],
+      actionName: '',
+      actionType: '',
       flattenedData: ['App','Reducers','Containers','Components'],
-      textFieldValue: '',
       flattenedArray: [],
       error: '',
       version2: {},
       parents: [],
     };
+    this.actionFormatName = this.actionFormatName.bind(this);
+    this.actionFormatType = this.actionFormatType.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
@@ -41,33 +44,44 @@ class ReduxTree extends Component {
     this.toggleStateButton = this.toggleStateButton.bind(this);
   }
 
-  formatName(textField) {
+  actionFormatName(textField) {
     let scrubbedResult = textField
-    // Capitalize first letter of string.
-    //| ^ = beginning of output | . = 1st char of str |
-    .replace(/^./g, x => x.toUpperCase())
     // Capitalize first letter of each word and removes spaces.
     //| \ = matches | \w = any alphanumeric | \S = single char except white space
     //| * = preceeding expression 0 or more times | + = preceeding expression 1 or more times |
     .replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1);})
     .replace(/\ +/g, x => '')
+    // Capitalize first letter of string.
+    //| ^ = beginning of output | . = 1st char of str |
+    .replace(/^./g, x => x.toLowerCase())
     // Remove appending file extensions like .js or .json.
     //| \. = . in file extensions | $ = end of input |
     .replace(/\..+$/, '');
     return scrubbedResult;
   }
 
+  actionFormatType(textField) {
+    let scrubbedResult = textField
+      .replace(/\w\S*/g, function(txt){return '_' + txt.substr(0);})
+      .replace(/\ +/g, x => '')
+      .replace(/^_/g, x => '')
+      .replace(/\w/g, x => x.toUpperCase())
+    return scrubbedResult;
+  }
+
   handleTextFieldChange(e){
     this.setState({
-      textFieldValue: e.target.value,
+      actionName: e.target.value,
+      actionType: e.target.value,
     });
   }
 
   concatNewComponent() {
-    if(this.state.textFieldValue !== '') {
+    if(this.state.actionName !== '' || this.state.actionType !== '' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
-          name: this.formatName(this.state.textFieldValue),
+          name: this.actionFormatName(this.state.actionName),
+          type: this.actionFormatType(this.state.actionType),
         }),
         error: "",
       }))
@@ -86,7 +100,8 @@ class ReduxTree extends Component {
     this.setState(state => ({
       flattenedData: flattenedArray,
       flattenedArray: flatteningNestedArray,
-      textFieldValue: '',
+      actionName: '',
+      actionType: '',
     }))
   }
 
@@ -165,6 +180,8 @@ handleExport() {
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
+    const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+    console.log(flattenedArray);
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
@@ -176,7 +193,8 @@ handleExport() {
         <ReduxInterface
           treeData={this.state.treeData}
           flattenedData={this.state.flattenedData}
-          textFieldValue={this.state.textFieldValue}
+          actionName={this.state.actionName}
+          actionType={this.state.actionType}
           flattenedArray = {this.state.flattenedArray}
           error={this.state.error}
           parents={this.state.parents}
