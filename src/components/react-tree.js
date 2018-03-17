@@ -201,7 +201,6 @@ class ReactTree extends Component {
                   value={this.formatName(node.name)}
                   onChange={event => {
                     const name = event.target.value;
-
                     this.setState(state => ({
                       treeData: changeNodeAtPath({
                         treeData: state.treeData,
