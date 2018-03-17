@@ -304,10 +304,9 @@ handleExport() {
               title: (
                 <input
                   style={{ fontSize: '1.1rem' }}
-                  value={node.name}
+                  value={this.camelCaseFormat(node.name)}
                   onChange={event => {
                     const name = event.target.value;
-
                     this.setState(state => ({
                       treeData: changeNodeAtPath({
                         treeData: state.treeData,
