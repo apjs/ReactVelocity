@@ -163,10 +163,6 @@ class ReactTree extends Component {
     setTimeout(() => {that.handleExport()}, 100);
   }
 
-  // componentDidMount() {
-  //   this.updateFlattenedData();
-  // }
-
   toggleStateButton() {
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
