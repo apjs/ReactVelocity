@@ -11,6 +11,7 @@ import ReduxInterface from './redux-interface';
 import generateReduxIndexJS from './../../generateContents/redux-index';
 import generateIndexHTML from './../../generateContents/index-html';
 import generateActionCreators from './../../generateContents/redux-generate-action-creators';
+import generateReducers from './../../generateContents/redux-generate-reducers';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -94,7 +95,7 @@ class ReduxTree extends Component {
     this.setState({
       actionName: e.target.value,
       actionType: e.target.value,
-      
+
     });
   }
 
@@ -150,7 +151,7 @@ class ReduxTree extends Component {
         }),
         reducerNameError: "",
         reducerCaseError: "",
-      })) 
+      }))
     } else if(this.state.componentName !== '' && this.state.value === 'Component' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
@@ -158,7 +159,7 @@ class ReduxTree extends Component {
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
-      }))   
+      }))
     } else if (this.state.value === 'Action'){(
         this.setState(state => ({
           actionError: "This field is required."
@@ -241,9 +242,11 @@ handleExport() {
   const index = generateReduxIndexJS();
   const html = generateIndexHTML();
   const actions = generateActionCreators(flattenedArray);
+  const reducers = generateReducers(flattenedArray);
   zip.file('index.js', index, {base64: false});
   zip.file('index.html', html, {base64: false});
   zip.file('actionTypes.js', actions , {base64: false});
+  zip.file('reducers.js', reducers , {base64: false});
   zip.generateAsync({type:"base64"}).then(function (base64) {
   location.href="data:application/zip;base64," + base64;
   });
@@ -260,7 +263,7 @@ handleExport() {
       isToggleOn: !prevState.isToggleOn
     }));
   }
-  
+
   handleChangeSelectField(event, index, value) {
     this.setState({
       value,
