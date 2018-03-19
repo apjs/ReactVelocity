@@ -84,7 +84,7 @@ class ReduxTree extends Component {
     this.setState({
       actionName: e.target.value,
       actionType: e.target.value,
-      
+
     });
   }
 
@@ -140,7 +140,7 @@ class ReduxTree extends Component {
         }),
         reducerNameError: "",
         reducerCaseError: "",
-      })) 
+      }))
     } else if(this.state.componentName !== '' && this.state.value === 'Component' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
@@ -148,7 +148,7 @@ class ReduxTree extends Component {
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
-      }))   
+      }))
     } else if (this.state.value === 'Action'){(
         this.setState(state => ({
           actionError: "This field is required."
@@ -245,7 +245,7 @@ class ReduxTree extends Component {
       isToggleOn: !prevState.isToggleOn
     }));
   }
-  
+
   handleChangeSelectField(event, index, value) {
     this.setState({
       value,
