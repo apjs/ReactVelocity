@@ -38,6 +38,7 @@ class ReduxTree extends Component {
       parents: [],
     };
     this.camelCaseFormat = this.camelCaseFormat.bind(this);
+    this.capitalizeFirstLetterOfEachWord = this.capitalizeFirstLetterOfEachWord.bind(this);
     this.allCapSnakeCaseFormat = this.allCapSnakeCaseFormat.bind(this);
     this.actionHandleTextFieldChange = this.actionHandleTextFieldChange.bind(this);
     this.reducerNameHandleTextFieldChange = this.reducerNameHandleTextFieldChange.bind(this);
@@ -68,6 +69,15 @@ class ReduxTree extends Component {
     .replace(/^./g, x => x.toLowerCase())
     // Remove appending file extensions like .js or .json.
     //| \. = . in file extensions | $ = end of input |
+    .replace(/\..+$/, '');
+    return scrubbedResult;
+  }
+
+  capitalizeFirstLetterOfEachWord(textField) {
+    let scrubbedResult = textField
+    .replace(/^./g, x => x.toUpperCase())
+    .replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1);})
+    .replace(/\ +/g, x => '')
     .replace(/\..+$/, '');
     return scrubbedResult;
   }
@@ -153,7 +163,7 @@ class ReduxTree extends Component {
     } else if(this.state.componentName !== '' && this.state.value === 'Component' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
-          name: this.camelCaseFormat(this.state.componentName),
+          name: this.capitalizeFirstLetterOfEachWord(this.state.componentName),
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
@@ -168,8 +178,8 @@ class ReduxTree extends Component {
             reducerCaseError: "These fields are required."
       })
     ))} else if (this.state.value === 'Component'){(
-      this.setState(state => ({
-        componentNameError: "This field is required.",
+          this.setState(state => ({
+            componentNameError: "This field is required.",
       })
     ))}
   }
@@ -183,6 +193,7 @@ class ReduxTree extends Component {
       actionType: '',
       reducerName: '',
       reducerCase: '',
+      componentName: '',
     }))
   }
 
@@ -261,6 +272,7 @@ class ReduxTree extends Component {
       actionError: '',
       reducerNameError: '',
       reducerCaseError: '',
+      componentNameError: '',
     })
   };
 
@@ -308,7 +320,7 @@ class ReduxTree extends Component {
               title: (
                 <input
                   style={{ fontSize: '1.1rem' }}
-                  value={this.camelCaseFormat(node.name)}
+                  value={node.name}
                   onChange={event => {
                     const name = event.target.value;
                     this.setState(state => ({
