@@ -24,7 +24,7 @@ class ReduxTree extends Component {
         { name: 'Actions', defaultType: '', parent: true},
         { name: 'Reducers', defaultType: '', parent: true},
         { name: 'Containers', defaultType: '', parent: true},
-        { name: 'Components', defaultType: '', parent: true}],
+        { name: 'Components', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Component', parent: true } ]}],
       value: 'Action',
       actionName: '',
       actionType: '',
@@ -288,6 +288,7 @@ handleExport() {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+    console.log(this.state.treeData)
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
