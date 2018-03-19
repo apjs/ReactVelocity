@@ -4,7 +4,9 @@ import 'react-sortable-tree/style.css';
 import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
 import ReactInterface from './react-interface';
-import { generateCode, version2 } from '../../generateContent';
+import { generateCode } from '../../generateContents/react-generate-content';
+import generateIndexHTML from '../../generateContents/react-generate-content';
+
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -13,14 +15,18 @@ class ReactTree extends Component {
     super(props);
 
     this.state = {
-      treeData: [{ name: 'App'}],
-      flattenedData: ['App'],
+      treeData: [{
+        name: 'App',
+        parent: true,
+        isStateful: true,
+      }],
       textFieldValue: '',
       flattenedArray: [],
       error: '',
       version2: {},
       isToggleOn: true,
     };
+    this.stateful = this.stateful.bind(this);
     this.formatName = this.formatName.bind(this);
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     this.concatNewComponent = this.concatNewComponent.bind(this);
@@ -32,6 +38,19 @@ class ReactTree extends Component {
     this.exportZipFiles = this.exportZipFiles.bind(this);
     this.toggleStateButton = this.toggleStateButton.bind(this);
   }
+
+  stateful(node,path,getNodeKey) {
+    if (!('isStateful' in node)) {
+    this.setState(state => ({
+       treeData: changeNodeAtPath({
+         treeData: state.treeData,
+         path,
+         getNodeKey,
+         newNode: { ...node, isStateful:true }
+       })
+     }))
+   }
+   }
 
   formatName(textField) {
     let scrubbedResult = textField
@@ -72,11 +91,7 @@ class ReactTree extends Component {
   updateFlattenedData() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flatteningNestedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    const flattenedArray = flatteningNestedArray.map(ele => {
-      return ele.node.name
-    });
     this.setState(state => ({
-      flattenedData: flattenedArray,
       flattenedArray: flatteningNestedArray,
       textFieldValue: '',
     }))
@@ -131,6 +146,7 @@ class ReactTree extends Component {
   handleExport() {
     const files = generateCode(this.state.version2);
     let fileNames = Object.keys(files);
+    zip.file('index.html', )
     for (let i=0; i<fileNames.length;i++) {
       zip.file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
     }
@@ -145,10 +161,6 @@ class ReactTree extends Component {
     setTimeout(() => {that.handleExport()}, 100);
   }
 
-  componentDidMount() {
-    this.updateFlattenedData();
-  }
-
   toggleStateButton() {
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
@@ -157,12 +169,20 @@ class ReactTree extends Component {
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
+    const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+    console.log(flattenedArray);
+    let isStateful = true;
+    const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
+      if (node.parent) {
+        return false;
+      }
+      return true;
+    };
 
     return (
       <div>
         <ReactInterface
           treeData={this.state.treeData}
-          flattenedData={this.state.flattenedData}
           textFieldValue={this.state.textFieldValue}
           flattenedArray = {this.state.flattenedArray}
           error={this.state.error}
@@ -176,6 +196,7 @@ class ReactTree extends Component {
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}
+            canDrop={canDrop}
             generateNodeProps={({ node, path }) => ({
               title: (
                 <input
@@ -183,7 +204,6 @@ class ReactTree extends Component {
                   value={this.formatName(node.name)}
                   onChange={event => {
                     const name = event.target.value;
-
                     this.setState(state => ({
                       treeData: changeNodeAtPath({
                         treeData: state.treeData,
@@ -195,11 +215,19 @@ class ReactTree extends Component {
                   }}
                 />
               ),
+              stateful: this.stateful(node,path,getNodeKey),
               buttons: [
-                <button
-                onClick={this.toggleStateButton}>
-                {this.state.isToggleOn? 'stateful': 'stateless'}
-              </button>,
+                <button onClick={()=> {
+                  node.isStateful ? isStateful = false : isStateful = true;
+                  this.setState(state => ({
+                    treeData: changeNodeAtPath({
+                      treeData: state.treeData,
+                      path,
+                      getNodeKey,
+                      newNode: { ...node, isStateful:isStateful },
+                    }),
+                  }))
+                }}>{node.isStateful ? 'Stateful' : 'Stateless'}</button>,
                 <button
                 onClick={() =>
                   this.setState(state => ({

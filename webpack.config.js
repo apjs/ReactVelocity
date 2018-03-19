@@ -1,27 +1,40 @@
-let config = {
-  entry: './main.js', // entry point
+'use strict';
+const htmlWebpackPlugin = require('html-webpack-plugin');
+
+const htmlWebpackConfig = new htmlWebpackPlugin({
+  template: __dirname + '/index.html',
+  filename: 'index.html',
+  inject: 'body'
+});
+
+module.exports = {
+  entry: __dirname + '/main.js',
   output: {
-    filename: 'index.js', // place where bundled app will be served
-  },
-  devServer: {
-    inline: true, // autorefresh
-    port: 3000, // development port server
+    path: __dirname + '/build',
+    filename: 'bundle.js'
   },
   module: {
     rules: [
       {
-        test: /\.(jsx|js)?$/,
+        test: /\.js?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['env', 'react'],
-        },
+          presets: [ 'env', 'react', 'es2015' ]
+        }
       },
       {
         test: /.css$/,
         use: ['style-loader', 'css-loader'],
       },
-    ],
+    ]
   },
+  plugins: [ htmlWebpackConfig ],
+  devServer: {
+    inline: true,
+    port: 3000,
+    historyApiFallback: {
+      index: '/'
+    }
+  }
 };
-module.exports = config;
