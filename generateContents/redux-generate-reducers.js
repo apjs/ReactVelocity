@@ -1,12 +1,17 @@
 const generateReducers = (data) => {
   let code = '';
+  console.log('DATA: ', data);
   for (let i = 0; i < data.length; i++) {
-    if (data[i].parentNode) {
-      if (data[i].parentNode.name === "Actions") {
-        code += `export const ${data[i].node.name} = replace_payload => {\n`;
-        code += `  return {\n`;
-        code += `    type: '${data[i].node.type}',\n`;
-        code += `    replace_payload\n`;
+    if (data[i].node.componentType) {
+      if (data[i].node.componentType === "Reducer") {
+        code += `export function ${data[i].node.name}(state = {}, action) {\n`;
+        code += `  switch (action.type) {\n`;
+        code += `    case ${data[i].node.case}:\n`;
+        code += `      return Object.assign({}, state, {\n`;
+        code += `        item: 'new item'\n`;
+        code += `      });\n`;
+        code += `    default:\n`;
+        code += `      return state;\n`
         code += `  }\n`;
         code += `}\n\n`;
       }

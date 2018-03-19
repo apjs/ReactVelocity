@@ -5,6 +5,8 @@ import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, g
 import MenuItem from 'material-ui/MenuItem';
 import ReactInterface from './react-interface';
 import { generateCode } from '../../generateContents/react-generate-content';
+import generateIndexHTML from '../../generateContents/react-generate-content';
+
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -144,6 +146,7 @@ class ReactTree extends Component {
   handleExport() {
     const files = generateCode(this.state.version2);
     let fileNames = Object.keys(files);
+    zip.file('index.html', )
     for (let i=0; i<fileNames.length;i++) {
       zip.file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
     }
