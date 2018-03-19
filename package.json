@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot",
+    "start": "webpack-dev-server --hot --host=0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
   },
