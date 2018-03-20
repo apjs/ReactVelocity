@@ -39,6 +39,7 @@ class ReduxTree extends Component {
       flattenedArray: [],
       version2: {},
       parents: [],
+      radioButtonState: 'stateless',
     };
     this.camelCaseFormat = this.camelCaseFormat.bind(this);
     this.capitalizeFirstLetterOfEachWord = this.capitalizeFirstLetterOfEachWord.bind(this);
@@ -59,6 +60,7 @@ class ReduxTree extends Component {
     this.toggleStateButton = this.toggleStateButton.bind(this);
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
     this.reducerCaseToArray = this.reducerCaseToArray.bind(this);
+    this.radioButtonChecked = this.radioButtonChecked.bind(this);
   }
 
   camelCaseFormat(textField) {
@@ -174,10 +176,10 @@ class ReduxTree extends Component {
       this.setState(state => ({
         treeData: state.treeData.concat({
           name: this.capitalizeFirstLetterOfEachWord(this.state.componentName),
+          isStateful: this.state.radioButtonState,
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
-<<<<<<< HEAD
       })) 
     } else if(this.state.containerName !== '' && this.state.value === 'Container' ) {
       this.setState(state => ({
@@ -187,9 +189,6 @@ class ReduxTree extends Component {
         }),
         containerNameError: "",
       }))   
-=======
-      }))
->>>>>>> 908e3a9994e81f194e74b6798e678222d675a7f4
     } else if (this.state.value === 'Action'){(
         this.setState(state => ({
           actionError: "This field is required."
@@ -311,6 +310,12 @@ handleExport() {
     })
   };
 
+  radioButtonChecked(e) {
+    this.setState({
+      radioButtonState: e.target.value,
+    });
+  }
+
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
@@ -348,7 +353,8 @@ handleExport() {
           onButtonPress={this.onButtonPress}
           onKeyPress={this.onKeyPress}
           exportZipFiles={this.exportZipFiles}
-          handleChangeSelectField={this.handleChangeSelectField}/>
+          handleChangeSelectField={this.handleChangeSelectField}
+          radioButtonChecked={this.radioButtonChecked}/>
         <div style={{ height: 700 }}>
           <SortableTree
             treeData={this.state.treeData}
