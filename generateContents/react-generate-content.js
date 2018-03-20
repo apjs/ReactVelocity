@@ -1,32 +1,31 @@
 export function generateCode(data) {
   let filesToZip = {};
-  let keys = Object.keys(data);
+  // let keys = Object.keys(data);
   let code = '';
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     code += "import React, { Component } from 'react';\n"
-    if (data[keys[i]]) {
-      console.log(data[keys[i]]);
-      for (let k=0; k < data[keys[i]].length; k++) {
-        code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
+    if (data[i].node.children) {
+      for(let j = 0; j < data[i].node.children.length; j++) {
+        code += `import ${data[i].node.children[j]} from './${data[i].node.children[j]}';\n`;
       }
     }
     code += '\n';
-    code += `class ${keys[i]} extends Component {\n`;
+    code += `class ${data[i].node.name} extends Component {\n`;
     code += '  render() {\n';
     code += '    return (\n';
     code += '      <div>\n';
-    if (data[keys[i]]) {
-      for (let j=0; j < data[keys[i]].length; j++) {
-        code += `        <${data[keys[i]][j]} />\n`;
-      }
+  if (data[i].node.name) {
+    for (let k=0; k < data[i].node.children.length; k++) {
+      code += `        <${data[i].node.children[k]} />\n`;
     }
+  }
     code += '      </div>\n';
     code += '    );\n';
     code += '  };\n';
     code += '}\n\n';
-    code += `export default ${keys[i]};`;
-    filesToZip[keys[i]] = code;
+    code += `export default ${data[i].node.name};`;
+    filesToZip[data[i].node.name] = code;
     code = '';
+   }
+   return filesToZip;
   }
-  return filesToZip;
-}

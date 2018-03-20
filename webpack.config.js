@@ -32,7 +32,7 @@ module.exports = {
   plugins: [ htmlWebpackConfig ],
   devServer: {
     inline: true,
-    port: 3000,
+    port: 8080,
     historyApiFallback: {
       index: '/'
     }

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
 import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
+import {cyan100} from 'material-ui/styles/colors';
 import ReactInterface from './react-interface';
 import { generateCode } from '../../generateContents/react-generate-content';
 import JSZip from 'jszip';
@@ -167,7 +168,7 @@ class ReactTree extends Component {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log(flattenedArray);
+    console.log(flattenedArray)
     let isStateful = true;
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
@@ -177,7 +178,9 @@ class ReactTree extends Component {
     };
 
     return (
-      <div>
+      <div style={{
+        backgroundColor: cyan100,
+      }} >
         <ReactInterface
           treeData={this.state.treeData}
           textFieldValue={this.state.textFieldValue}
