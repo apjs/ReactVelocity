@@ -76,32 +76,28 @@ class ReactInterface extends Component {
             backgroundColor: cyan800,
           }}>
           <CardActions>
-            <div style={styles.wrapper}>
-              <Link to="/">
-                <Chip 
-                  style={styles.chip}
-                  backgroundColor={grey900}
-                  labelColor={white}>
-                  <Avatar 
-                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
-                    backgroundColor={white}/>
-                  React
-                </Chip>
-              </Link>
-              <Link to="/redux">
-                <Chip 
-                  style={styles.chip}
-                  backgroundColor={grey900}
-                  labelColor={white}>
-                  <Avatar 
-                      src="../src/reduxLogo.png" 
-                      backgroundColor={white} />
-                  Redux
-                </Chip>
-              </Link>
-            </div>
-          </CardActions>
-        </Card>
+            <Link to="/">
+              <IconButton tooltip="React" >
+
+                <Avatar
+                  style={{
+                  marginLeft: '100',
+                  }}
+                  src="../src/reactLogo.png"
+                  backgroundColor={white}/>
+
+              </IconButton>
+                </Link>
+                  <Link to="/redux">
+              <IconButton tooltip="Redux" >
+
+                  <Avatar
+                    src="../src/reduxLogo.png"
+                    backgroundColor={white} />
+              </IconButton>
+                </Link>
+            </CardActions>
+          </Card>
         <Drawer
           docked={false}
           width={150}
