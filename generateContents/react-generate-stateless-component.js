@@ -3,7 +3,7 @@ export default function generatePresentationalComponent(data) {
   let keys = Object.keys(data);
   let code = '';
   for (let i = 0; i < keys.length; i++) {
-    if (keys[i] === 'Actions' || keys[i] === 'Containers' || keys[i] === 'Reducers' || keys[i] === 'Components') {
+    if (keys[i] === 'action' || keys[i] === 'container/component' || keys[i] === 'reducer') {
       continue;
     }
       let state = data[keys[i]][data[keys[i]].length - 1][0];

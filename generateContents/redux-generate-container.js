@@ -3,7 +3,7 @@ const generateContainer = data => {
   let keys = Object.keys(data);
   let code = '';
   for (let i = 0; i < keys.length; i++) {
-    if (keys[i] === 'Actions' || keys[i] === 'Containers' || keys[i] === 'Reducers' || keys[i] === 'Components') {
+    if (keys[i] === 'action' || keys[i] === 'container/component' || keys[i] === 'reducer') {
       continue;
     }
     let state = data[keys[i]][data[keys[i]].length - 1][0];
@@ -13,7 +13,7 @@ const generateContainer = data => {
       code += "import { bindActionCreators } from redux;\n";
       code += "import * as actionCreators from './../actions/actionTypes';\n";
       if (data[keys[i]]) {
-        for (let k=0; k < data[keys[i]].length; k++) {
+        for (let k=0; k < data[keys[i]].length - 1; k++) {
           code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
         }
       }
@@ -23,7 +23,7 @@ const generateContainer = data => {
       code += '    return (\n';
       code += '      <div>\n';
       if (data[keys[i]]) {
-        for (let j=0; j < data[keys[i]].length; j++) {
+        for (let j=0; j < data[keys[i]].length - 1; j++) {
           code += `        <${data[keys[i]][j]} />\n`;
         }
       }
