@@ -11,11 +11,22 @@ import IconButton from 'material-ui/IconButton';
 
 import Menu from 'material-ui/svg-icons/navigation/menu';
 import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
 import FileDownload from 'material-ui/svg-icons/file/file-download';
 import {cyan200, cyan800, grey900, white} from 'material-ui/styles/colors';
 
 const style = {
   margin: 12,
+};
+
+const styles = {
+  chip: {
+    margin: 4,
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
 };
 
 const iconStyles = {
@@ -83,7 +94,6 @@ class ReactInterface extends Component {
                   <Avatar
                     src="../src/reduxLogo.png"
                     backgroundColor={white} />
-
               </IconButton>
                 </Link>
             </CardActions>
