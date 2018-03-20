@@ -50,11 +50,11 @@ class ReactInterface extends Component {
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
 
-  render() {    
+  render() {
     return (
       <div>
         <AppBar
-          title={<span>React Velocity</span>}
+          title={<img src="../src/reactVelocity.png" alt="react velocity logo"/>}
           style={{
             color: cyan200,
             backgroundColor: grey900,
@@ -94,7 +94,7 @@ class ReactInterface extends Component {
                   backgroundColor={grey900}
                   labelColor={white}>
                   <Avatar 
-                      src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media" 
+                      src="../src/reduxLogo.png" 
                       backgroundColor={white} />
                   Redux
                 </Chip>
@@ -108,6 +108,13 @@ class ReactInterface extends Component {
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
+          <IconButton tooltip="Redux" >
+            <Link to="/redux">
+              <Avatar
+                src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media"
+                backgroundColor={white} />
+            </Link>
+          </IconButton>
           <Card>
             <CardActions>
               <TextField
