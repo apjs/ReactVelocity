@@ -7,7 +7,7 @@ const generateReducers = (data) => {
         code += `  switch (action.type) {\n`;
         if (data[i].node.case) {
           for (let j=0; j < data[i].node.case.length;j++) {
-            code += `    case ${data[i].node.case[j]}:\n`;
+            code += `    case '${data[i].node.case[j]}':\n`;
             code += `      return Object.assign({}, state, {\n`;
             code += `        item: 'new item'\n`;
             code += `      });\n`;
