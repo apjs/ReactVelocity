@@ -39,11 +39,11 @@ class ReactInterface extends Component {
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
 
-  render() {    
+  render() {
     return (
       <div>
         <AppBar
-          title={<span>React Velocity</span>}
+          title={<img src="../src/reactVelocity.png" alt="react velocity logo"/>}
           style={{
             color: cyan200,
             backgroundColor: grey900,
@@ -65,23 +65,27 @@ class ReactInterface extends Component {
             backgroundColor: cyan800,
           }}>
           <CardActions>
+            <Link to="/">
               <IconButton tooltip="React" >
-                <Link to="/">
-                <Avatar 
+
+                <Avatar
                   style={{
                   marginLeft: '100',
                   }}
-                  src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
+                  src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png"
                   backgroundColor={white}/>
-                </Link>
+
               </IconButton>
+                </Link>
+                  <Link to="/redux">
               <IconButton tooltip="Redux" >
-                <Link to="/redux">
-                  <Avatar 
-                    src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media" 
+
+                  <Avatar
+                    src="../src/reduxLogo.png"
                     backgroundColor={white} />
-                </Link> 
-              </IconButton> 
+
+              </IconButton>
+                </Link>
             </CardActions>
           </Card>
         <Drawer
@@ -90,6 +94,13 @@ class ReactInterface extends Component {
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
+          <IconButton tooltip="Redux" >
+            <Link to="/redux">
+              <Avatar
+                src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media"
+                backgroundColor={white} />
+            </Link>
+          </IconButton>
           <Card>
             <CardActions>
               <TextField
