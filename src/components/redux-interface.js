@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 const style = {
   margin: 12,
@@ -20,10 +21,6 @@ const styles = {
     },
     radioButton: {
       marginBottom: 16,
-    },
-    //DropDown
-    customWidth: {
-        width: 100,
     },
   };
 
@@ -145,6 +142,18 @@ class ReduxInterface extends Component {
                 onChange={this.props.componentNameHandleTextFieldChange}
                 onKeyPress={this.props.onKeyPress}
                 style= {{width: 135}}/>
+              <RadioButtonGroup name="shipSpeed" defaultSelected="stateless" onChange={(e) => {this.props.radioButtonChecked(e)}}>
+                <RadioButton
+                  value="stateless"
+                  label="Stateless"
+                  style={styles.radioButton}
+                />
+                <RadioButton
+                  value="stateful"
+                  label="Stateful"
+                  style={styles.radioButton}
+                />
+              </RadioButtonGroup>
             </CardActions>
           </Card>
           <Card>
