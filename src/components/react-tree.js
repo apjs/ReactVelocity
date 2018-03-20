@@ -4,8 +4,9 @@ import 'react-sortable-tree/style.css';
 import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
 import ReactInterface from './react-interface';
-import { generateCode } from '../../generateContents/react-generate-content';
-import generateIndexHTML from '../../generateContents/react-generate-content';
+import generateCode from '../../generateContents/react-generate-content';
+import generateIndexHTML from '../../generateContents/index-html';
+import generatePresentationalComponent from '../../generateContents/react-generate-stateless-component';
 
 import JSZip from 'jszip';
 const zip = new JSZip();
@@ -136,19 +137,38 @@ class ReactTree extends Component {
         version2[lastElem] = subArr.slice(0, -1);
       } else if (version2.hasOwnProperty(lastElem) && version2[lastElem] !== null) {
         version2[lastElem] = version2[lastElem].concat(subArr.slice(0, -1));
+      }
+    }
+
+    for (let i=0; i < flattenedVar.length; i++) {
+      if (Array.isArray(version2[flattenedVar[i].node.name])) {
+        if (flattenedVar[i].node.isStateful) {
+          version2[flattenedVar[i].node.name].push(['stateful']);
+        } else {
+          version2[flattenedVar[i].node.name].push(['stateless']);
+        }
+      } else {
+        version2[flattenedVar[i].node.name] = (flattenedVar[i].node.isStateful) ? [['stateful']] : [['stateless']];
+      }
+
     }
 
     this.setState({
       version2: version2,
     });
   }
-}
+
+
   handleExport() {
-    const files = generateCode(this.state.version2);
-    let fileNames = Object.keys(files);
-    zip.file('index.html', )
+    let { version2 } = this.state;
+    let stateful = generateCode(version2);
+    let stateless = generatePresentationalComponent(version2);
+    let allComponents = {...stateful, ...stateless};
+    let fileNames = Object.keys(allComponents);
+    const html = generateIndexHTML();
+    zip.file('index.html', html, {base64: false});
     for (let i=0; i<fileNames.length;i++) {
-      zip.file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
+      zip.folder('components').file(fileNames[i] + '.js', allComponents[fileNames[i]], {base64: false})
     }
       zip.generateAsync({type:"base64"}).then(function (base64) {
       location.href="data:application/zip;base64," + base64;
@@ -170,7 +190,6 @@ class ReactTree extends Component {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log(flattenedArray);
     let isStateful = true;
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
