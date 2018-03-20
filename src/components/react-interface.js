@@ -11,11 +11,22 @@ import IconButton from 'material-ui/IconButton';
 
 import Menu from 'material-ui/svg-icons/navigation/menu';
 import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
 import FileDownload from 'material-ui/svg-icons/file/file-download';
 import {cyan200, cyan800, grey900, white} from 'material-ui/styles/colors';
 
 const style = {
   margin: 12,
+};
+
+const styles = {
+  chip: {
+    margin: 4,
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
 };
 
 const iconStyles = {
@@ -65,25 +76,32 @@ class ReactInterface extends Component {
             backgroundColor: cyan800,
           }}>
           <CardActions>
-              <IconButton tooltip="React" >
-                <Link to="/">
-                <Avatar 
-                  style={{
-                  marginLeft: '100',
-                  }}
-                  src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
-                  backgroundColor={white}/>
-                </Link>
-              </IconButton>
-              <IconButton tooltip="Redux" >
-                <Link to="/redux">
+            <div style={styles.wrapper}>
+              <Link to="/">
+                <Chip 
+                  style={styles.chip}
+                  backgroundColor={grey900}
+                  labelColor={white}>
                   <Avatar 
-                    src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media" 
-                    backgroundColor={white} />
-                </Link> 
-              </IconButton> 
-            </CardActions>
-          </Card>
+                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
+                    backgroundColor={white}/>
+                  React
+                </Chip>
+              </Link>
+              <Link to="/redux">
+                <Chip 
+                  style={styles.chip}
+                  backgroundColor={grey900}
+                  labelColor={white}>
+                  <Avatar 
+                      src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media" 
+                      backgroundColor={white} />
+                  Redux
+                </Chip>
+              </Link>
+            </div>
+          </CardActions>
+        </Card>
         <Drawer
           docked={false}
           width={150}
