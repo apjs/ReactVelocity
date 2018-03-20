@@ -10,6 +10,9 @@ import MenuItem from 'material-ui/MenuItem';
 import ReduxInterface from './redux-interface';
 import generateReduxIndexJS from './../../generateContents/redux-index';
 import generateIndexHTML from './../../generateContents/index-html';
+import generateActionCreators from './../../generateContents/redux-generate-action-creators';
+import generateReducers from './../../generateContents/redux-generate-reducers';
+import generateComponents from './../../generateContents/redux-generate-components';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -22,7 +25,7 @@ class ReduxTree extends Component {
         { name: 'Actions', defaultType: '', parent: true},
         { name: 'Reducers', defaultType: '', parent: true},
         { name: 'Containers', defaultType: '', parent: true},
-        { name: 'Components', defaultType: '', parent: true}],
+        { name: 'Components', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Component', parent: true } ]}],
       value: 'Action',
       actionName: '',
       actionType: '',
@@ -38,6 +41,7 @@ class ReduxTree extends Component {
       parents: [],
     };
     this.camelCaseFormat = this.camelCaseFormat.bind(this);
+    this.capitalizeFirstLetterOfEachWord = this.capitalizeFirstLetterOfEachWord.bind(this);
     this.allCapSnakeCaseFormat = this.allCapSnakeCaseFormat.bind(this);
     this.actionHandleTextFieldChange = this.actionHandleTextFieldChange.bind(this);
     this.reducerNameHandleTextFieldChange = this.reducerNameHandleTextFieldChange.bind(this);
@@ -53,6 +57,7 @@ class ReduxTree extends Component {
     this.exportZipFiles = this.exportZipFiles.bind(this);
     this.toggleStateButton = this.toggleStateButton.bind(this);
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
+    this.reducerCaseToArray = this.reducerCaseToArray.bind(this);
   }
 
   camelCaseFormat(textField) {
@@ -71,6 +76,15 @@ class ReduxTree extends Component {
     return scrubbedResult;
   }
 
+  capitalizeFirstLetterOfEachWord(textField) {
+    let scrubbedResult = textField
+    .replace(/^./g, x => x.toUpperCase())
+    .replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1);})
+    .replace(/\ +/g, x => '')
+    .replace(/\..+$/, '');
+    return scrubbedResult;
+  }
+
   allCapSnakeCaseFormat(textField) {
     let scrubbedResult = textField
       .replace(/\w\S*/g, function(txt){return '_' + txt.substr(0);})
@@ -78,6 +92,14 @@ class ReduxTree extends Component {
       .replace(/^_/g, x => '')
       .replace(/\w/g, x => x.toUpperCase())
     return scrubbedResult;
+  }
+
+  reducerCaseToArray(textfield){
+    let splitTextField = textfield.split(/,/)
+    let scrubbedArray = splitTextField.map(ele => {
+      return this.allCapSnakeCaseFormat(ele)
+    })
+    return scrubbedArray;
   }
 
   actionHandleTextFieldChange(e){
@@ -135,7 +157,7 @@ class ReduxTree extends Component {
       this.setState(state => ({
         treeData: state.treeData.concat({
           name: this.camelCaseFormat(this.state.reducerName),
-          case: this.allCapSnakeCaseFormat(this.state.reducerCase),
+          case: this.reducerCaseToArray(this.state.reducerCase),
           componentType: this.chooseFileType(),
         }),
         reducerNameError: "",
@@ -144,7 +166,7 @@ class ReduxTree extends Component {
     } else if(this.state.componentName !== '' && this.state.value === 'Component' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
-          name: this.camelCaseFormat(this.state.componentName),
+          name: this.capitalizeFirstLetterOfEachWord(this.state.componentName),
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
@@ -159,8 +181,8 @@ class ReduxTree extends Component {
             reducerCaseError: "These fields are required."
       })
     ))} else if (this.state.value === 'Component'){(
-      this.setState(state => ({
-        componentNameError: "This field is required.",
+          this.setState(state => ({
+            componentNameError: "This field is required.",
       })
     ))}
   }
@@ -174,6 +196,7 @@ class ReduxTree extends Component {
       actionType: '',
       reducerName: '',
       reducerCase: '',
+      componentName: '',
     }))
   }
 
@@ -224,15 +247,28 @@ class ReduxTree extends Component {
   }
 }
 
-  handleExport() {
-    const index = generateReduxIndexJS();
-    const html = generateIndexHTML();
-    zip.file('index.js', index, {base64: false});
-    zip.file('index.html', html, {base64: false});
-      zip.generateAsync({type:"base64"}).then(function (base64) {
-      location.href="data:application/zip;base64," + base64;
-    });
+
+handleExport() {
+  const getNodeKey = ({ treeIndex }) => treeIndex;
+  const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+  const index = generateReduxIndexJS();
+  const html = generateIndexHTML();
+  const actions = generateActionCreators(flattenedArray);
+  const reducers = generateReducers(flattenedArray);
+  const files = generateComponents(this.state.version2);
+  console.log('VERSION 2: ', this.state.version2);
+  let fileNames = Object.keys(files);
+  zip.file('index.js', index, {base64: false});
+  zip.file('index.html', html, {base64: false});
+  zip.file('actionTypes.js', actions , {base64: false});
+  zip.file('reducers.js', reducers , {base64: false});
+  for (let i=0; i<fileNames.length;i++) {
+    zip.folder('components').file(fileNames[i] + '.js', files[fileNames[i]], {base64: false})
   }
+  zip.generateAsync({type:"base64"}).then(function (base64) {
+  location.href="data:application/zip;base64," + base64;
+  });
+}
 
   exportZipFiles() {
     this.createCodeForGenerateContent();
@@ -252,13 +288,14 @@ class ReduxTree extends Component {
       actionError: '',
       reducerNameError: '',
       reducerCaseError: '',
+      componentNameError: '',
     })
   };
 
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log(flattenedArray);
+    console.log(this.state.treeData)
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
@@ -302,7 +339,6 @@ class ReduxTree extends Component {
                   value={node.name}
                   onChange={event => {
                     const name = event.target.value;
-
                     this.setState(state => ({
                       treeData: changeNodeAtPath({
                         treeData: state.treeData,

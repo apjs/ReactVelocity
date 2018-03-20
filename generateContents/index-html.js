@@ -6,7 +6,7 @@ const generateIndexHTML = () => {
   code += `  <title>React/Redux App</title>\n`;
   code += `</head>\n`;
   code += `<body>\n`;
-  code += `  <div id='app'></div>\n`;
+  code += `  <div id='app'>React/Redux App</div>\n`;
   code += `</body>\n`;
   code += `</html>`;
   return code;

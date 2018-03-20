@@ -20,7 +20,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: [ 'env', 'react' ]
+          presets: [ 'env', 'react', 'es2015' ]
         }
       },
       {
@@ -32,7 +32,7 @@ module.exports = {
   plugins: [ htmlWebpackConfig ],
   devServer: {
     inline: true,
-    port: 8080,
+    port: 3000,
     historyApiFallback: {
       index: '/'
     }
