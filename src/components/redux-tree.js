@@ -15,6 +15,7 @@ import generateReducers from './../../generateContents/redux-generate-reducers';
 import generateComponents from './../../generateContents/redux-generate-components';
 import generatePresentationalComponent from './../../generateContents/react-generate-stateless-component';
 import generateContainer from './../../generateContents/redux-generate-container';
+import {deepPurple100} from 'material-ui/styles/colors';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -370,7 +371,9 @@ handleExport() {
       return true;
     };
     return (
-      <div>
+      <div style={{
+        backgroundColor: deepPurple100,
+      }}>
         <ReduxInterface
           treeData={this.state.treeData}
           value={this.state.value}
