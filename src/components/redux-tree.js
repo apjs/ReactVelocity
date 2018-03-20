@@ -13,6 +13,8 @@ import generateIndexHTML from './../../generateContents/index-html';
 import generateActionCreators from './../../generateContents/redux-generate-action-creators';
 import generateReducers from './../../generateContents/redux-generate-reducers';
 import generateComponents from './../../generateContents/redux-generate-components';
+import generatePresentationalComponent from './../../generateContents/react-generate-stateless-component';
+import generateContainer from './../../generateContents/redux-generate-container';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -22,9 +24,9 @@ class ReduxTree extends Component {
 
     this.state = {
       treeData: [
-        { name: 'Action', defaultType: '', parent: true},
-        { name: 'Reducer', defaultType: '', parent: true},
-        { name: 'Container/Component', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Container', parent: true } ]}],
+        { name: 'action', defaultType: '', parent: true},
+        { name: 'reducer', defaultType: '', parent: true},
+        { name: 'container/component', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Container', parent: true } ]}],
       value: 'Action',
       actionName: '',
       actionType: '',
@@ -263,31 +265,65 @@ class ReduxTree extends Component {
         version2[lastElem] = subArr.slice(0, -1);
       } else if (version2.hasOwnProperty(lastElem) && version2[lastElem] !== null) {
         version2[lastElem] = version2[lastElem].concat(subArr.slice(0, -1));
+      }
+    }
+
+    for (let i=0; i < flattenedVar.length; i++) {
+      if (flattenedVar[i].node.name === 'Action' || flattenedVar[i].node.name === 'Container/Component' || flattenedVar[i].node.name === 'Reducer') {
+        continue;
+      }
+      if (Array.isArray(version2[flattenedVar[i].node.name])) {
+        if (flattenedVar[i].node.isStateful === 'true') {
+          version2[flattenedVar[i].node.name].push(['stateful']);
+        } else if (flattenedVar[i].node.componentType === 'Container') {
+          version2[flattenedVar[i].node.name].push(['container']);
+        } else if (flattenedVar[i].node.isStateful === 'false') {
+          version2[flattenedVar[i].node.name].push(['stateless']);
+        }
+      } else {
+        if (flattenedVar[i].node.isStateful === 'true') {
+          version2[flattenedVar[i].node.name] = [['stateful']];
+        } else if (flattenedVar[i].node.componentType === 'Container') {
+          version2[flattenedVar[i].node.name] = [['container']];
+        } else {
+          version2[flattenedVar[i].node.name] = [['stateless']];
+        }
+      }
+
     }
 
     this.setState({
       version2: version2,
     });
   }
-}
 
 
 handleExport() {
+  let { version2 } = this.state;
   const getNodeKey = ({ treeIndex }) => treeIndex;
   const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
   const index = generateReduxIndexJS();
   const html = generateIndexHTML();
   const actions = generateActionCreators(flattenedArray);
   const reducers = generateReducers(flattenedArray);
-  const files = generateComponents(this.state.version2);
-  let fileNames = Object.keys(files);
+  const stateful = generateComponents(version2);
+  const stateless = generatePresentationalComponent(version2);
+  const components = {...stateful, ...stateless};
+  const containers = generateContainer(version2);
+  let fileNames = Object.keys(components);
+  let fileNamesContainers = Object.keys(containers);
   zip.file('index.js', index, {base64: false});
   zip.file('index.html', html, {base64: false});
   zip.folder('actions').file('actionTypes.js', actions , {base64: false});
   zip.folder('reducers').file('reducers.js', reducers , {base64: false});
   for (let i=0; i<fileNames.length;i++) {
     if (fileNames[i][0] === fileNames[i][0].toUpperCase()) {
-      zip.folder('components').file(fileNames[i] + '.js', files[fileNames[i]], {base64: false});
+      zip.folder('components').file(fileNames[i] + '.js', components[fileNames[i]], {base64: false});
+    }
+  }
+  for (let i=0; i<fileNamesContainers.length;i++) {
+    if (fileNamesContainers[i][0] === fileNamesContainers[i][0].toUpperCase()) {
+      zip.folder('containers').file(fileNamesContainers[i] + '.js', containers[fileNamesContainers[i]], {base64: false});
     }
   }
   zip.generateAsync({type:"base64"}).then(function (base64) {
@@ -327,7 +363,6 @@ handleExport() {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log(flattenedArray)
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
