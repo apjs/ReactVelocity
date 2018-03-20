@@ -1,6 +1,6 @@
 const generateCode = data => {
   let filesToZip = {};
-  // let keys = Object.keys(data);
+  let keys = Object.keys(data);
   let code = '';
   for (let i = 0; i < keys.length; i++) {
     let state = data[keys[i]][data[keys[i]].length - 1][0];
