@@ -1,13 +1,15 @@
-const generateCode = data => {
+export default function generateComponents(data) {
   let filesToZip = {};
-  // let keys = Object.keys(data);
+  let keys = Object.keys(data);
+  console.log('DATA: ', data);
   let code = '';
   for (let i = 0; i < keys.length; i++) {
-    let state = data[keys[i]][data[keys[i]].length - 1][0];
-    if (state === 'stateful') {
+    if (keys[i] === 'Actions' || keys[i] === 'Containers' || keys[i] === 'Reducers' || keys[i] === 'Components') {
+      continue;
+    }
       code += "import React, { Component } from 'react';\n"
       if (data[keys[i]]) {
-        for (let k=0; k < data[keys[i]].length - 1; k++) {
+        for (let k=0; k < data[keys[i]].length; k++) {
           code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
         }
       }
@@ -17,7 +19,7 @@ const generateCode = data => {
       code += '    return (\n';
       code += '      <div>\n';
       if (data[keys[i]]) {
-        for (let j=0; j < data[keys[i]].length - 1; j++) {
+        for (let j=0; j < data[keys[i]].length; j++) {
           code += `        <${data[keys[i]][j]} />\n`;
         }
       }
@@ -28,9 +30,6 @@ const generateCode = data => {
       code += `export default ${keys[i]};`;
       filesToZip[keys[i]] = code;
       code = '';
-    }
   }
   return filesToZip;
 }
-
-export default generateCode;

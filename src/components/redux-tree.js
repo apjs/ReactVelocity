@@ -12,6 +12,7 @@ import generateReduxIndexJS from './../../generateContents/redux-index';
 import generateIndexHTML from './../../generateContents/index-html';
 import generateActionCreators from './../../generateContents/redux-generate-action-creators';
 import generateReducers from './../../generateContents/redux-generate-reducers';
+import generateComponents from './../../generateContents/redux-generate-components';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -101,7 +102,7 @@ class ReduxTree extends Component {
     let splitTextField = textfield.split(/,/)
     let scrubbedArray = splitTextField.map(ele => {
       return this.allCapSnakeCaseFormat(ele)
-    }) 
+    })
     return scrubbedArray;
   }
 
@@ -278,10 +279,17 @@ handleExport() {
   const html = generateIndexHTML();
   const actions = generateActionCreators(flattenedArray);
   const reducers = generateReducers(flattenedArray);
+  const files = generateComponents(this.state.version2);
+  let fileNames = Object.keys(files);
   zip.file('index.js', index, {base64: false});
   zip.file('index.html', html, {base64: false});
-  zip.file('actionTypes.js', actions , {base64: false});
-  zip.file('reducers.js', reducers , {base64: false});
+  zip.folder('actions').file('actionTypes.js', actions , {base64: false});
+  zip.folder('reducers').file('reducers.js', reducers , {base64: false});
+  for (let i=0; i<fileNames.length;i++) {
+    if (fileNames[i][0] === fileNames[i][0].toUpperCase()) {
+      zip.folder('components').file(fileNames[i] + '.js', files[fileNames[i]], {base64: false});
+    }
+  }
   zip.generateAsync({type:"base64"}).then(function (base64) {
   location.href="data:application/zip;base64," + base64;
   });
@@ -319,7 +327,7 @@ handleExport() {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.log(this.state.treeData)
+    // console.log(this.state.treeData)
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
