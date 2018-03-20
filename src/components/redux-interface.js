@@ -126,6 +126,18 @@ class ReduxInterface extends Component {
           <Card>
             <CardActions>
               <TextField
+                floatingLabelText="Container: Name"
+                floatingLabelFixed={true}
+                errorText={this.props.containerNameError}
+                value={this.props.containerName}
+                onChange={this.props.containerNameHandleTextFieldChange}
+                onKeyPress={this.props.onKeyPress}
+                style= {{width: 135}}/>
+            </CardActions>
+          </Card>
+          <Card>
+            <CardActions>
+              <TextField
                 floatingLabelText="Component: Name"
                 floatingLabelFixed={true}
                 errorText={this.props.componentNameError}

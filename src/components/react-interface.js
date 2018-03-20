@@ -7,24 +7,21 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
+
+import Menu from 'material-ui/svg-icons/navigation/menu';
+import Avatar from 'material-ui/Avatar';
+import FileDownload from 'material-ui/svg-icons/file/file-download';
+import {cyan200, cyan800, grey900, white} from 'material-ui/styles/colors';
 
 const style = {
   margin: 12,
 };
 
-const styles = {
-    //Radio Button
-    block: {
-      maxWidth: 50,
-    },
-    radioButton: {
-      marginBottom: 16,
-    },
-    //DropDown
-    customWidth: {
-        width: 100,
-    },
-  };
+const iconStyles = {
+  marginRight: 24,
+};
+
 
 class ReactInterface extends Component {
 
@@ -46,23 +43,47 @@ class ReactInterface extends Component {
     return (
       <div>
         <AppBar
-          iconElementLeft={<FlatButton label="Menu" onClick={this.handleToggle} />}
-          iconElementRight={
+          title={<span>React Velocity</span>}
+          style={{
+            color: cyan200,
+            backgroundColor: grey900,
+          }}
+          iconElementLeft={
             <div>
-              <FlatButton onClick={this.props.exportZipFiles} label="Export" />
+              <IconButton onClick={this.handleToggle} tooltip="Menu">
+                <Menu style={iconStyles} color={cyan200} />
+              </IconButton>
             </div>
+          }
+          iconElementRight={
+            <IconButton onClick={this.props.exportZipFiles} tooltip="Download" >
+              <FileDownload style={iconStyles} color={cyan200} />
+            </IconButton>
             }
         />
-        <Card>
+        <Card style={{
+            backgroundColor: cyan800,
+          }}>
           <CardActions>
-            <Link to="/">
-              <FlatButton label="React" primary={true} />
-            </Link>
-            <Link to="/redux">
-              <FlatButton label="Redux" secondary={true} />
-            </Link>
-          </CardActions>
-        </Card>
+              <IconButton tooltip="React" >
+                <Link to="/">
+                <Avatar 
+                  style={{
+                  marginLeft: '100',
+                  }}
+                  src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
+                  backgroundColor={white}/>
+                </Link>
+              </IconButton>
+              <IconButton tooltip="Redux" >
+                <Link to="/redux">
+                  <Avatar 
+                    src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media" 
+                    backgroundColor={white} />
+                </Link> 
+              </IconButton> 
+            </CardActions>
+          </Card>
         <Drawer
           docked={false}
           width={150}

@@ -22,20 +22,21 @@ class ReduxTree extends Component {
 
     this.state = {
       treeData: [
-        { name: 'Actions', defaultType: '', parent: true},
-        { name: 'Reducers', defaultType: '', parent: true},
-        { name: 'Containers', defaultType: '', parent: true},
-        { name: 'Components', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Component', parent: true } ]}],
+        { name: 'Action', defaultType: '', parent: true},
+        { name: 'Reducer', defaultType: '', parent: true},
+        { name: 'Container/Component', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Container', parent: true } ]}],
       value: 'Action',
       actionName: '',
       actionType: '',
       reducerName: '',
       reducerCase: '',
       componentName: '',
+      containerName: '',
       actionError: '',
       reducerNameError: '',
       reducerCaseError: '',
       componentNameError: '',
+      containerNameError: '',
       flattenedArray: [],
       version2: {},
       parents: [],
@@ -47,6 +48,7 @@ class ReduxTree extends Component {
     this.reducerNameHandleTextFieldChange = this.reducerNameHandleTextFieldChange.bind(this);
     this.reducerCaseHandleTextFieldChange = this.reducerCaseHandleTextFieldChange.bind(this);
     this.componentNameHandleTextFieldChange = this.componentNameHandleTextFieldChange.bind(this);
+    this.containerNameHandleTextFieldChange = this.containerNameHandleTextFieldChange.bind(this);
     this.chooseFileType = this.chooseFileType.bind(this);
     this.concatNewComponent = this.concatNewComponent.bind(this);
     this.updateFlattenedData = this.updateFlattenedData.bind(this);
@@ -127,6 +129,12 @@ class ReduxTree extends Component {
       componentName: e.target.value,
     });
   }
+  
+  containerNameHandleTextFieldChange(e){
+    this.setState({
+      containerName: e.target.value,
+    });
+  }
 
   chooseFileType() {
     if (this.state.value === "Action") {
@@ -170,7 +178,19 @@ class ReduxTree extends Component {
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
+<<<<<<< HEAD
+      })) 
+    } else if(this.state.containerName !== '' && this.state.value === 'Container' ) {
+      this.setState(state => ({
+        treeData: state.treeData.concat({
+          name: this.capitalizeFirstLetterOfEachWord(this.state.containerName),
+          componentType: this.chooseFileType(),
+        }),
+        containerNameError: "",
+      }))   
+=======
       }))
+>>>>>>> 908e3a9994e81f194e74b6798e678222d675a7f4
     } else if (this.state.value === 'Action'){(
         this.setState(state => ({
           actionError: "This field is required."
@@ -183,6 +203,10 @@ class ReduxTree extends Component {
     ))} else if (this.state.value === 'Component'){(
           this.setState(state => ({
             componentNameError: "This field is required.",
+      })
+    ))} else if (this.state.value === 'Container'){(
+          this.setState(state => ({
+            containerNameError: "This field is required.",
       })
     ))}
   }
@@ -197,6 +221,7 @@ class ReduxTree extends Component {
       reducerName: '',
       reducerCase: '',
       componentName: '',
+      containerName: '',
     }))
   }
 
@@ -290,6 +315,7 @@ handleExport() {
       reducerNameError: '',
       reducerCaseError: '',
       componentNameError: '',
+      containerNameError: '',
     })
   };
 
@@ -313,16 +339,19 @@ handleExport() {
           reducerName={this.state.reducerName}
           reducerCase={this.state.reducerCase}
           componentName={this.state.componentName}
+          containerName={this.state.containerName}
           flattenedArray = {this.state.flattenedArray}
           actionError={this.state.actionError}
           reducerNameError={this.state.reducerNameError}
           reducerCaseError={this.state.reducerCaseError}
           componentNameError={this.state.componentNameError}
+          containerNameError={this.state.containerNameError}
           parents={this.state.parents}
           actionHandleTextFieldChange={this.actionHandleTextFieldChange}
           reducerNameHandleTextFieldChange={this.reducerNameHandleTextFieldChange}
           reducerCaseHandleTextFieldChange={this.reducerCaseHandleTextFieldChange}
           componentNameHandleTextFieldChange={this.componentNameHandleTextFieldChange}
+          containerNameHandleTextFieldChange={this.containerNameHandleTextFieldChange}
           updateFlattenedData={this.updateFlattenedData}
           onButtonPress={this.onButtonPress}
           onKeyPress={this.onKeyPress}
