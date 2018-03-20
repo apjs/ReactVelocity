@@ -9,20 +9,36 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import IconButton from 'material-ui/IconButton';
+import Menu from 'material-ui/svg-icons/navigation/menu';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
+import FileDownload from 'material-ui/svg-icons/file/file-download';
+import {deepPurple200, deepPurple800, grey900, white} from 'material-ui/styles/colors';
+
+const styles = {
+  chip: {
+    margin: 4,
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  block: {
+    maxWidth: 50,
+  },
+  radioButton: {
+    marginBottom: 16,
+  },
+};
 
 const style = {
   margin: 12,
 };
 
-const styles = {
-    //Radio Button
-    block: {
-      maxWidth: 50,
-    },
-    radioButton: {
-      marginBottom: 16,
-    },
-  };
+const iconStyles = {
+  marginRight: 24,
+};
 
 class ReduxInterface extends Component {
 
@@ -41,25 +57,51 @@ class ReduxInterface extends Component {
     return (
       <div>
         <AppBar
+          title={<img src="../src/reactVelocity.png" alt="react velocity logo"/>}
+          style={{
+            backgroundColor: grey900,
+          }}
           iconElementLeft={
             <div>
-              <FlatButton label="Menu" onClick={this.handleToggle} />
+              <IconButton onClick={this.handleToggle} tooltip="Menu">
+                <Menu style={iconStyles} color={deepPurple200} />
+              </IconButton>
             </div>
           }
           iconElementRight={
-            <div>
-              <FlatButton onClick={this.props.exportZipFiles} label="Export" />
-            </div>  
-          }
+            <IconButton onClick={this.props.exportZipFiles} tooltip="Download" >
+              <FileDownload style={iconStyles} color={deepPurple200} />
+            </IconButton>
+            }
         />
-         <Card>
+         <Card style={{
+            backgroundColor: deepPurple800,
+          }}>
           <CardActions>
-            <Link to="/">
-              <FlatButton label="React" primary={true} />
-            </Link>
-            <Link to="/redux">
-              <FlatButton label="Redux" secondary={true} />
-            </Link>
+            <div style={styles.wrapper}>
+              <Link to="/redux">
+                <Chip 
+                  style={styles.chip}
+                  backgroundColor={grey900}
+                  labelColor={white}>
+                  <Avatar 
+                      src="../src/reduxLogo.png" 
+                      backgroundColor={white} />
+                  Redux
+                </Chip>
+              </Link>
+              <Link to="/">
+                <Chip 
+                  style={styles.chip}
+                  backgroundColor={grey900}
+                  labelColor={white}>
+                  <Avatar 
+                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
+                    backgroundColor={white}/>
+                  React
+                </Chip>
+              </Link>
+            </div>
           </CardActions>
         </Card>
         <Drawer
