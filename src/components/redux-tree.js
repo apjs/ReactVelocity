@@ -131,7 +131,7 @@ class ReduxTree extends Component {
       componentName: e.target.value,
     });
   }
-  
+
   containerNameHandleTextFieldChange(e){
     this.setState({
       containerName: e.target.value,
@@ -181,7 +181,7 @@ class ReduxTree extends Component {
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
-      })) 
+      }))
     } else if(this.state.containerName !== '' && this.state.value === 'Container' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
@@ -189,7 +189,7 @@ class ReduxTree extends Component {
           componentType: this.chooseFileType(),
         }),
         containerNameError: "",
-      }))   
+      }))
     } else if (this.state.value === 'Action'){(
         this.setState(state => ({
           actionError: "This field is required."
