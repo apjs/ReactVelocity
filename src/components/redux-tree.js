@@ -21,7 +21,7 @@ class ReduxTree extends Component {
       treeData: [
         { name: 'Action', defaultType: '', parent: true},
         { name: 'Reducer', defaultType: '', parent: true},
-        { name: 'Container/Component', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Component', parent: true } ]}],
+        { name: 'Container/Component', defaultType: '', parent: true, expanded: true, children: [ { name: 'App', componentType: 'Container', parent: true } ]}],
       value: 'Action',
       actionName: '',
       actionType: '',
