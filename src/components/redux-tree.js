@@ -40,7 +40,7 @@ class ReduxTree extends Component {
       flattenedArray: [],
       version2: {},
       parents: [],
-      radioButtonState: 'stateless',
+      radioButtonState: false,
     };
     this.camelCaseFormat = this.camelCaseFormat.bind(this);
     this.capitalizeFirstLetterOfEachWord = this.capitalizeFirstLetterOfEachWord.bind(this);
@@ -327,7 +327,7 @@ handleExport() {
   render() {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    // console.log(this.state.treeData)
+    console.log(flattenedArray)
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;

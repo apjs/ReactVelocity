@@ -144,12 +144,12 @@ class ReduxInterface extends Component {
                 style= {{width: 135}}/>
               <RadioButtonGroup name="shipSpeed" defaultSelected="stateless" onChange={(e) => {this.props.radioButtonChecked(e)}}>
                 <RadioButton
-                  value="stateless"
-                  label="Stateless"
+                  value = {false}
+                  label= "Stateless"
                   style={styles.radioButton}
                 />
                 <RadioButton
-                  value="stateful"
+                  value= {true}
                   label="Stateful"
                   style={styles.radioButton}
                 />
