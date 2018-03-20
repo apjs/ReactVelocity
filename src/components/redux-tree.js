@@ -10,6 +10,8 @@ import MenuItem from 'material-ui/MenuItem';
 import ReduxInterface from './redux-interface';
 import generateReduxIndexJS from './../../generateContents/redux-index';
 import generateIndexHTML from './../../generateContents/index-html';
+import generateActionCreators from './../../generateContents/redux-generate-action-creators';
+import generateReducers from './../../generateContents/redux-generate-reducers';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -105,7 +107,7 @@ class ReduxTree extends Component {
     this.setState({
       actionName: e.target.value,
       actionType: e.target.value,
-      
+
     });
   }
 
@@ -167,7 +169,7 @@ class ReduxTree extends Component {
         }),
         reducerNameError: "",
         reducerCaseError: "",
-      })) 
+      }))
     } else if(this.state.componentName !== '' && this.state.value === 'Component' ) {
       this.setState(state => ({
         treeData: state.treeData.concat({
@@ -175,6 +177,7 @@ class ReduxTree extends Component {
           componentType: this.chooseFileType(),
         }),
         componentNameError: "",
+<<<<<<< HEAD
       })) 
     } else if(this.state.containerName !== '' && this.state.value === 'Container' ) {
       this.setState(state => ({
@@ -184,6 +187,9 @@ class ReduxTree extends Component {
         }),
         containerNameError: "",
       }))   
+=======
+      }))
+>>>>>>> 908e3a9994e81f194e74b6798e678222d675a7f4
     } else if (this.state.value === 'Action'){(
         this.setState(state => ({
           actionError: "This field is required."
@@ -265,15 +271,22 @@ class ReduxTree extends Component {
   }
 }
 
-  handleExport() {
-    const index = generateReduxIndexJS();
-    const html = generateIndexHTML();
-    zip.file('index.js', index, {base64: false});
-    zip.file('index.html', html, {base64: false});
-      zip.generateAsync({type:"base64"}).then(function (base64) {
-      location.href="data:application/zip;base64," + base64;
-    });
-  }
+
+handleExport() {
+  const getNodeKey = ({ treeIndex }) => treeIndex;
+  const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
+  const index = generateReduxIndexJS();
+  const html = generateIndexHTML();
+  const actions = generateActionCreators(flattenedArray);
+  const reducers = generateReducers(flattenedArray);
+  zip.file('index.js', index, {base64: false});
+  zip.file('index.html', html, {base64: false});
+  zip.file('actionTypes.js', actions , {base64: false});
+  zip.file('reducers.js', reducers , {base64: false});
+  zip.generateAsync({type:"base64"}).then(function (base64) {
+  location.href="data:application/zip;base64," + base64;
+  });
+}
 
   exportZipFiles() {
     this.createCodeForGenerateContent();
@@ -286,7 +299,7 @@ class ReduxTree extends Component {
       isToggleOn: !prevState.isToggleOn
     }));
   }
-  
+
   handleChangeSelectField(event, index, value) {
     this.setState({
       value,
@@ -302,7 +315,6 @@ class ReduxTree extends Component {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     console.log(this.state.treeData)
-    // console.log(flattenedArray);
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
