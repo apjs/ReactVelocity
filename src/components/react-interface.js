@@ -50,11 +50,11 @@ class ReactInterface extends Component {
   //Change = Select Field
   handleChange(event, index, value) {this.setState({value})};
 
-  render() {    
+  render() {
     return (
       <div>
         <AppBar
-          title={<span>React Velocity</span>}
+          title={<img src="../src/reactVelocity.png" alt="react velocity logo"/>}
           style={{
             color: cyan200,
             backgroundColor: grey900,
@@ -76,6 +76,7 @@ class ReactInterface extends Component {
             backgroundColor: cyan800,
           }}>
           <CardActions>
+<<<<<<< HEAD
             <div style={styles.wrapper}>
               <Link to="/">
                 <Chip 
@@ -102,12 +103,44 @@ class ReactInterface extends Component {
             </div>
           </CardActions>
         </Card>
+=======
+            <Link to="/">
+              <IconButton tooltip="React" >
+
+                <Avatar
+                  style={{
+                  marginLeft: '100',
+                  }}
+                  src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png"
+                  backgroundColor={white}/>
+
+              </IconButton>
+                </Link>
+                  <Link to="/redux">
+              <IconButton tooltip="Redux" >
+
+                  <Avatar
+                    src="../src/reduxLogo.png"
+                    backgroundColor={white} />
+
+              </IconButton>
+                </Link>
+            </CardActions>
+          </Card>
+>>>>>>> b31013e4a0c22409ddf098db00bf12cc11e00845
         <Drawer
           docked={false}
           width={150}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
+          <IconButton tooltip="Redux" >
+            <Link to="/redux">
+              <Avatar
+                src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media"
+                backgroundColor={white} />
+            </Link>
+          </IconButton>
           <Card>
             <CardActions>
               <TextField
