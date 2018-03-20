@@ -72,7 +72,7 @@ class ReactInterface extends Component {
                   style={{
                   marginLeft: '100',
                   }}
-                  src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png"
+                  src="../src/reactLogo.png"
                   backgroundColor={white}/>
 
               </IconButton>
