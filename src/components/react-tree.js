@@ -5,6 +5,7 @@ import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, g
 import MenuItem from 'material-ui/MenuItem';
 import {cyan100} from 'material-ui/styles/colors';
 import ReactInterface from './react-interface';
+import IconButton from 'material-ui/IconButton';
 import generateCode from '../../generateContents/react-generate-content';
 import generateIndexHTML from '../../generateContents/index-html';
 import generatePresentationalComponent from '../../generateContents/react-generate-stateless-component';
@@ -192,6 +193,8 @@ class ReactTree extends Component {
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
     let isStateful = true;
+    console.log(this.state.version2)
+    console.log(flattenedArray)
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
