@@ -13,6 +13,10 @@ const generateCode = data => {
       }
       code += '\n';
       code += `class ${keys[i]} extends Component {\n`;
+      code += '  constructor(props) {\n';
+      code += '    super(props);\n';
+      code += '    this.state = {};\n';
+      code += '  }\n\n';
       code += '  render() {\n';
       code += '    return (\n';
       code += '      <div>\n';
