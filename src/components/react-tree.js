@@ -214,7 +214,7 @@ class ReactTree extends Component {
           onButtonPress={this.onButtonPress}
           onKeyPress={this.onKeyPress}
           exportZipFiles={this.exportZipFiles}/>
-        <div style={{ height: 700 }}>
+        <div style={{ height: 1800 }}>
           <SortableTree
             treeData={this.state.treeData}
             onChange={treeData => this.setState({ treeData })}

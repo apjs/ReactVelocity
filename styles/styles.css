@@ -2,7 +2,7 @@
 
 /*
 This is a sample style just to show that we have This
-file connected to our index.html 
+file connected to our index.html \*/
 body {
-  background-color: #333;
-} */
+  margin:0;
+}
