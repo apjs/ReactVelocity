@@ -53,11 +53,11 @@ class ReduxInterface extends Component {
   //Toggle = Drawer
   handleToggle(){ this.setState({open: !this.state.open})};
 
-  render() {    
+  render() {
     return (
       <div>
         <AppBar
-          title={<img src="../src/reactVelocity.png" alt="react velocity logo"/>}
+          title={<img class="logo" src="../src/reactVelocity.png" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
@@ -80,23 +80,23 @@ class ReduxInterface extends Component {
           <CardActions>
             <div style={styles.wrapper}>
               <Link to="/redux">
-                <Chip 
+                <Chip
                   style={styles.chip}
                   backgroundColor={grey900}
                   labelColor={white}>
-                  <Avatar 
-                      src="../src/reduxLogo.png" 
+                  <Avatar
+                      src="../src/reduxLogo.png"
                       backgroundColor={white} />
                   Redux
                 </Chip>
               </Link>
               <Link to="/">
-                <Chip 
+                <Chip
                   style={styles.chip}
                   backgroundColor={grey900}
                   labelColor={white}>
-                  <Avatar 
-                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
+                  <Avatar
+                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png"
                     backgroundColor={white}/>
                   React
                 </Chip>
@@ -204,7 +204,7 @@ class ReduxInterface extends Component {
                 label="Add File"
                 style={style}
                 onClick={this.props.onButtonPress}/>
-            </CardActions>  
+            </CardActions>
           </Card>
         </Drawer>
       </div>
