@@ -107,13 +107,6 @@ class ReactInterface extends Component {
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <IconButton tooltip="Redux" >
-            <Link to="/redux">
-              <Avatar
-                src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-L5K1I1WsuQMZ8ecEuWg%2Favatar.png?generation=1518623866348435&alt=media"
-                backgroundColor={white} />
-            </Link>
-          </IconButton>
           <Card>
             <CardActions>
               <TextField
