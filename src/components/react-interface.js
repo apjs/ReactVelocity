@@ -62,11 +62,7 @@ class ReactInterface extends Component {
     return (
       <div>
         <AppBar
-<<<<<<< HEAD
-          title={<img class="logo" src="https://agcb.neocities.org/reactVelocity.svg" alt="react velocity logo"/>}
-=======
           title={<img className="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
->>>>>>> b84715539e9bd373aefd3b0e1c7b84f569b73046
           style={{
             backgroundColor: grey900,
           }}
