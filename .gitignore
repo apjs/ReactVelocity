@@ -3,3 +3,4 @@ Thumbs.db
 .Trashes
 package-lock.json
 build
+node_modules
