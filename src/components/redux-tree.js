@@ -427,16 +427,18 @@ handleExport() {
               buttons: [
                 <button
                   style={{
-                    backgroundColor: grey800,
-                    color: white,
+                    borderRadius: 10,
+                    fontSize: 12,
+                    fontWeight: 'bold'
                   }}
                 >
                   {node.defaultType === '' ? 'Do Not Remove' : node.componentType}
                 </button>,
                 <button
                   style={{
-                    backgroundColor: grey800,
-                    color: white,
+                    borderRadius: 7,
+                    fontSize: 12,
+                    fontWeight: 'bold'
                   }}
                   onClick={() =>
                     this.setState(state => ({

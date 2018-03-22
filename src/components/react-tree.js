@@ -299,9 +299,10 @@ class ReactTree extends Component {
               buttons: [
                 <button
                   style={{
-                    backgroundColor: grey800,
-                    color: white,
-                  }} 
+                    borderRadius: 10,
+                    fontSize: 12,
+                    fontWeight: 'bold'
+                  }}
                   onClick={()=> {
                   node.isStateful ? isStateful = false : isStateful = true;
                   this.setState(state => ({
@@ -315,8 +316,9 @@ class ReactTree extends Component {
                 }}>{node.isStateful ? 'Stateful' : 'Stateless'}</button>,
                 <button
                   style={{
-                    backgroundColor: grey800,
-                    color: white,
+                    borderRadius: 10,
+                    fontSize: 12,
+                    fontWeight: 'bold'
                   }}
                   onClick={() =>
                   this.setState(state => ({
@@ -336,8 +338,9 @@ class ReactTree extends Component {
               </button>,
                 <button
                   style={{
-                    backgroundColor: grey800,
-                    color: white,
+                    borderRadius: 7,
+                    fontSize: 12,
+                    fontWeight: 'bold'
                   }}
                   onClick={() =>
                     this.setState(state => ({
