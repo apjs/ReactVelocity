@@ -142,7 +142,7 @@ class ReactInterface extends Component {
                   <p></p>
                   <li>Once you are satisfied with the structure of your project, click on the download button located at the top-right corner of the screen to export your components.</li>
                   <p></p>
-                  <li>If you have any questions, please contact us at: reactvelocity@gmail.com</li>
+                  <li>If you have any questions, please contact us at: apjs.react.velocity@gmail.com</li>
                 </ul>
               </Dialog>
             </div>
