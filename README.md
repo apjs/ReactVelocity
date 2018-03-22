@@ -1,6 +1,6 @@
 # React Velocity
 
-![](http://gph.is/2pAwMue)
+![](https://media.giphy.com/media/jnTfQbKrk1z5sXecCr/giphy.gif)
 
 React Velocity is a web application that allows you to visualize your React project's component hierarchy before exporting the requisite boilerplate code. The two main features allow you to create React-based and React/Redux-based production level projects. This tool enables you to convert between stateless and stateful, class-based components.
 
