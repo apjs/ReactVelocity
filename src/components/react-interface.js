@@ -62,7 +62,7 @@ class ReactInterface extends Component {
     return (
       <div>
         <AppBar
-          title={<img src="../src/reactVelocity.png" alt="react velocity logo"/>}
+          title={<img class="logo" src="../src/reactVelocity.png" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}

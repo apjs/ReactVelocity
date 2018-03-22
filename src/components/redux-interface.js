@@ -68,10 +68,11 @@ class ReduxInterface extends Component {
         onClick={this.handleClose}
       />
     ];   
+
     return (
       <div>
         <AppBar
-          title={<img src="../src/reactVelocity.png" alt="react velocity logo"/>}
+          title={<img class="logo" src="../src/reactVelocity.png" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
@@ -94,23 +95,23 @@ class ReduxInterface extends Component {
           <CardActions>
             <div style={styles.wrapper}>
               <Link to="/redux">
-                <Chip 
+                <Chip
                   style={styles.chip}
                   backgroundColor={grey900}
                   labelColor={white}>
-                  <Avatar 
-                      src="../src/reduxLogo.png" 
+                  <Avatar
+                      src="../src/reduxLogo.png"
                       backgroundColor={white} />
                   Currently in Redux
                 </Chip>
               </Link>
               <Link to="/">
-                <Chip 
+                <Chip
                   style={styles.chip}
                   backgroundColor={grey900}
                   labelColor={white}>
-                  <Avatar 
-                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png" 
+                  <Avatar
+                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png"
                     backgroundColor={white}/>
                   Change to React
                 </Chip>
@@ -287,7 +288,7 @@ class ReduxInterface extends Component {
                   margin: 14,
                 }}
                 onClick={this.props.onButtonPress}/>
-            </CardActions>  
+            </CardActions>
           </Card>
         </Drawer>
       </div>

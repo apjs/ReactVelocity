@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+//react-router-dom is react-router for browsers.
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ReactTree from './react-tree';
 import ReduxTree from './redux-tree';

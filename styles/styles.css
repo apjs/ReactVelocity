@@ -6,3 +6,7 @@ file connected to our index.html \*/
 body {
   margin:0;
 }
+
+.logo {
+  padding-top: 8px;
+}
