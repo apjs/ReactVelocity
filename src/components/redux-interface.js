@@ -60,19 +60,19 @@ class ReduxInterface extends Component {
   handleOpen(){this.setState({dialogOpen: true});};
   handleClose(){this.setState({dialogOpen: false});};
 
-  render() { 
+  render() {
     const actions = [
       <FlatButton
         label="Close"
         primary={true}
         onClick={this.handleClose}
       />
-    ];   
+    ];
 
     return (
       <div>
         <AppBar
-          title={<img className="logo" src="../src/reactVelocity.png" alt="react velocity logo"/>}
+          title={<img class="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
@@ -126,7 +126,7 @@ class ReduxInterface extends Component {
                       color={deepPurple200}
                       backgroundColor={white} />
                   Instructions
-              </Chip>    
+              </Chip>
               <Dialog
                 title="Instructions for starting your REDUX PROJECT:"
                 modal={false}
@@ -153,7 +153,7 @@ class ReduxInterface extends Component {
                   <li>For example, if you created an action creator, drag and drop the newly created file under the default ‘action’ node on the page. Once you have determined your project structure, you can export your files by clicking on the download button in the top-right corner of the screen.</li>
                   <p></p>
                   <li>If you have any questions, please contact us at: reactvelocity@gmail.com</li>
-                </ul> 
+                </ul>
               </Dialog>
             </div>
           </CardActions>
