@@ -62,7 +62,7 @@ class ReactInterface extends Component {
     return (
       <div>
         <AppBar
-          title={<img class="logo" src="../src/reactVelocity.png" alt="react velocity logo"/>}
+          title={<img class="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
@@ -117,7 +117,7 @@ class ReactInterface extends Component {
                       color={cyan200}
                       backgroundColor={white} />
                   Instructions
-              </Chip>    
+              </Chip>
               <Dialog
                 title="Instructions for starting your REACT PROJECT:"
                 modal={false}
@@ -125,7 +125,7 @@ class ReactInterface extends Component {
                 open={this.state.dialogOpen}
                 onRequestClose={this.handleClose}
                 autoScrollBodyContent={true}
-                
+
               >
                 <ul style={{color: white}}>
                   <li>The component of ‘App’ is automatically generated, which may be used as the top-level parent component for your project.</li>
