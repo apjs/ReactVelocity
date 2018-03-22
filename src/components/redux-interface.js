@@ -145,17 +145,17 @@ class ReduxInterface extends Component {
                   <p></p>
                   <li>**IMPORTANT NOTE: A user created 'action' must be a child of the pre-generated 'action' component.</li>
                   <p></p>
-                  <li>To add a reducer, select ‘Reducer’ from the menu drop-down, type the reducer’s name in the input field, and add all the case’s for that reducer in the ‘Reducer: Case’ input field. </li>
+                  <li>To add a reducer, select ‘Reducer’ from the menu drop-down, type the reducer’s name in the input field, and add all the cases for that reducer in the ‘Reducer: Case’ input field. </li>
                   <p></p>
                   <li>**IMPORTANT NOTE: You may add multiple cases for a single reducer, but please be sure that the cases are comma-separated.</li>
                   <p></p>
                   <li>Add a container by selecting the container option in the drop-down and title the container in the input field. You may add stateful and stateless components by selecting the component drop-down option and specifying on the bottom of the menu whether the component is stateful or stateless.</li>
                   <p></p>
-                  <li>**IMPORTANT NOTE: WHEN YOU ADD A FILE, DRAG THE THE FILE TO ITS APPROPRIATE FOLDER ON THE PAGE AND NEST IT INSIDE ITS APPROPRIATE FOLDER.</li>
+                  <li>**IMPORTANT NOTE: WHEN YOU ADD A FILE, DRAG THE FILE TO ITS APPROPRIATE FOLDER ON THE PAGE AND NEST IT INSIDE ITS APPROPRIATE FOLDER.</li>
                   <p></p>
                   <li>For example, if you created an action creator, drag and drop the newly created file under the default ‘action’ node on the page. Once you have determined your project structure, you can export your files by clicking on the download button in the top-right corner of the screen.</li>
                   <p></p>
-                  <li>If you have any questions, please contact us at: reactvelocity@gmail.com</li>
+                  <li>If you have any questions, please contact us at: apjs.react.velocity@gmail.com</li>
                 </ul>
               </Dialog>
             </div>
