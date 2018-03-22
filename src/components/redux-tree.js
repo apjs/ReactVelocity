@@ -15,7 +15,7 @@ import generateReducers from './../../generateContents/redux-generate-reducers';
 import generateComponents from './../../generateContents/redux-generate-components';
 import generatePresentationalComponent from './../../generateContents/react-generate-stateless-component';
 import generateContainer from './../../generateContents/redux-generate-container';
-import {deepPurple100} from 'material-ui/styles/colors';
+import {deepPurple100, grey800, white} from 'material-ui/styles/colors';
 import JSZip from 'jszip';
 const zip = new JSZip();
 
@@ -425,10 +425,19 @@ handleExport() {
                 />
               ),
               buttons: [
-                <button>
+                <button
+                  style={{
+                    backgroundColor: grey800,
+                    color: white,
+                  }}
+                >
                   {node.defaultType === '' ? 'Do Not Remove' : node.componentType}
                 </button>,
                 <button
+                  style={{
+                    backgroundColor: grey800,
+                    color: white,
+                  }}
                   onClick={() =>
                     this.setState(state => ({
                       treeData: removeNodeAtPath({
