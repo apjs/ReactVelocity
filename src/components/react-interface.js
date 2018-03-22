@@ -62,7 +62,7 @@ class ReactInterface extends Component {
     return (
       <div>
         <AppBar
-          title={<img class="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
+          title={<img class="logo" src="https://agcb.neocities.org/reactVelocity.svg" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
@@ -73,6 +73,7 @@ class ReactInterface extends Component {
               </IconButton>
             </div>
           }
+
           iconElementRight={
             <IconButton onClick={this.props.exportZipFiles} tooltip="Download" >
               <FileDownload style={iconStyles} color={cyan200} />
@@ -91,7 +92,7 @@ class ReactInterface extends Component {
                   backgroundColor={grey900}
                   labelColor={white}>
                   <Avatar
-                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png"
+                    src="https://agcb.neocities.org/reactLogo.png"
                     backgroundColor={white}/>
                   Currently in React
                 </Chip>
@@ -102,7 +103,7 @@ class ReactInterface extends Component {
                   backgroundColor={grey900}
                   labelColor={white}>
                   <Avatar
-                      src="../src/reduxLogo.png"
+                      src="https://agcb.neocities.org/reduxLogo.png"
                       backgroundColor={white} />
                   Change to Redux
                 </Chip>
