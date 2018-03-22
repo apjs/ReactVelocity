@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import 'react-sortable-tree/style.css';
 import SortableTree, { addNodeUnderParent ,removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import MenuItem from 'material-ui/MenuItem';
-import {cyan100} from 'material-ui/styles/colors';
+import {cyan100, grey800, white} from 'material-ui/styles/colors';
 import ReactInterface from './react-interface';
 import IconButton from 'material-ui/IconButton';
 import generateCode from '../../generateContents/react-generate-content';
@@ -242,7 +242,12 @@ class ReactTree extends Component {
               ),
               stateful: this.stateful(node,path,getNodeKey),
               buttons: [
-                <button onClick={()=> {
+                <button
+                  style={{
+                    backgroundColor: grey800,
+                    color: white,
+                  }} 
+                  onClick={()=> {
                   node.isStateful ? isStateful = false : isStateful = true;
                   this.setState(state => ({
                     treeData: changeNodeAtPath({
@@ -254,7 +259,11 @@ class ReactTree extends Component {
                   }))
                 }}>{node.isStateful ? 'Stateful' : 'Stateless'}</button>,
                 <button
-                onClick={() =>
+                  style={{
+                    backgroundColor: grey800,
+                    color: white,
+                  }}
+                  onClick={() =>
                   this.setState(state => ({
                     treeData: addNodeUnderParent({
                       treeData: state.treeData,
@@ -271,6 +280,10 @@ class ReactTree extends Component {
                 Add Child
               </button>,
                 <button
+                  style={{
+                    backgroundColor: grey800,
+                    color: white,
+                  }}
                   onClick={() =>
                     this.setState(state => ({
                       treeData: removeNodeAtPath({
