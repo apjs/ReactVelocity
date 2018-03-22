@@ -6,7 +6,7 @@ Within the Redux feature of the app, you can add action creators to your actions
 
 You can visit the main site at reactvelocity.com
 
-[Learn how to use React in your own project](https://reactvelocity.com).
+You can visit the main site at [reactvelocity.com](https://reactvelocity.com).
 
 
 ## Usage
