@@ -72,7 +72,7 @@ class ReduxInterface extends Component {
     return (
       <div>
         <AppBar
-          title={<img class="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
+          title={<img className="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
