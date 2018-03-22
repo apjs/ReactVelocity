@@ -6,9 +6,6 @@ Within the Redux feature of the app, you can add action creators to your actions
 
 You can visit the main site at reactvelocity.com
 
-You can visit the main site at [reactvelocity.com](https://reactvelocity.com).
-
-
 ## Usage
 
 To get started, visit reactvelocity.com and select one of the two features that you wish to work in. The cyan page allows you to begin adding components for a React-based application and the purple page allows you to add a layer of Redux functionality. In React mode, you can toggle between stateful and stateless components. Redux mode allows you to add much more including reducers, actions, and containers all while preserving the ability to add functional and presentational components.
