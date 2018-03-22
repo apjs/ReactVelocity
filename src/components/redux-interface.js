@@ -72,7 +72,7 @@ class ReduxInterface extends Component {
     return (
       <div>
         <AppBar
-          title={<img class="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
+          title={<img className="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
@@ -141,6 +141,8 @@ class ReduxInterface extends Component {
                   <li>To begin, open the menu drawer by clicking on the horizontal lines in the top-left corner of the page. Please be sure that the appropriate file type is selected before you add a file.</li>
                   <p></p>
                   <li>If you wish to add an action creator, make sure that ‘Action’ is selected, type the name of that action in the ‘Action: Name’ input field and click ‘Add File’.</li>
+                  <p></p>
+                  <li>**IMPORTANT NOTE: A user created 'action' must be a child of the pre-generated 'action' component.</li>
                   <p></p>
                   <li>To add a reducer, select ‘Reducer’ from the menu drop-down, type the reducer’s name in the input field, and add all the case’s for that reducer in the ‘Reducer: Case’ input field. </li>
                   <p></p>
