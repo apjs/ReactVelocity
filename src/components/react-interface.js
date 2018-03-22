@@ -64,6 +64,7 @@ class ReactInterface extends Component {
         <AppBar
           title={<img className="logo" src="https://agcb.neocities.org/reactVelocity.svg" alt="react velocity logo"/>}
           style={{
+            paddingTop: 10,
             backgroundColor: grey900,
           }}
           iconElementLeft={
