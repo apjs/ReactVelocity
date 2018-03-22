@@ -142,6 +142,8 @@ class ReduxInterface extends Component {
                   <p></p>
                   <li>If you wish to add an action creator, make sure that ‘Action’ is selected, type the name of that action in the ‘Action: Name’ input field and click ‘Add File’.</li>
                   <p></p>
+                  <li>**IMPORTANT NOTE: A user created 'action' must be a child of the pre-generated 'action' component.</li>
+                  <p></p>
                   <li>To add a reducer, select ‘Reducer’ from the menu drop-down, type the reducer’s name in the input field, and add all the case’s for that reducer in the ‘Reducer: Case’ input field. </li>
                   <p></p>
                   <li>**IMPORTANT NOTE: You may add multiple cases for a single reducer, but please be sure that the cases are comma-separated.</li>
