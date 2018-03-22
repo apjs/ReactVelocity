@@ -72,7 +72,7 @@ class ReduxInterface extends Component {
     return (
       <div>
         <AppBar
-          title={<img className="logo" src="../src/reactVelocity.svg" alt="react velocity logo"/>}
+          title={<img className="logo" src="https://agcb.neocities.org/reactVelocity.svg" alt="react velocity logo"/>}
           style={{
             backgroundColor: grey900,
           }}
@@ -100,7 +100,7 @@ class ReduxInterface extends Component {
                   backgroundColor={grey900}
                   labelColor={white}>
                   <Avatar
-                      src="../src/reduxLogo.png"
+                      src="https://agcb.neocities.org/reduxLogo.png"
                       backgroundColor={white} />
                   Currently in Redux
                 </Chip>
@@ -111,7 +111,7 @@ class ReduxInterface extends Component {
                   backgroundColor={grey900}
                   labelColor={white}>
                   <Avatar
-                    src="https://cdn-images-1.medium.com/max/256/1*XgMpgjwwDrHLOiS748kpBg.png"
+                    src="https://agcb.neocities.org/reactLogo.png"
                     backgroundColor={white}/>
                   Change to React
                 </Chip>
