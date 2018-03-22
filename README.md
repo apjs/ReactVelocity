@@ -21,8 +21,3 @@ Please submit issues/pull requests if you have feedback or message the React Vel
 * Paul Dubovsky (https://github.com/menothe)
 * Justin Yip (https://github.com/jeyip12)
 * Scott Bengtson (https://github.com/sunsnba)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
