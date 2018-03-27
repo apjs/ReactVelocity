@@ -8,7 +8,7 @@ export default function generatePresentationalComponent(data) {
     }
       let state = data[keys[i]][data[keys[i]].length - 1][0];
       if (state === 'stateless') {
-        code += "import React, { Component } from 'react';\n"
+        code += "import React from 'react';\n"
         if (data[keys[i]]) {
           for (let k=0; k < data[keys[i]].length-1; k++) {
             code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
