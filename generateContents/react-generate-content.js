@@ -8,7 +8,11 @@ const generateCode = data => {
       code += "import React, { Component } from 'react';\n"
       if (data[keys[i]]) {
         for (let k=0; k < data[keys[i]].length - 1; k++) {
-          code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
+          if (keys[i] === 'App') {
+            code += `import ${data[keys[i]][k]} from './components/${data[keys[i]][k]}';\n`;
+          } else {
+            code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
+          }
         }
       }
       code += '\n';

@@ -7,8 +7,13 @@ import {cyan100, grey800, white} from 'material-ui/styles/colors';
 import ReactInterface from './react-interface';
 import IconButton from 'material-ui/IconButton';
 import generateCode from '../../generateContents/react-generate-content';
-import generateIndexHTML from '../../generateContents/index-html';
 import generatePresentationalComponent from '../../generateContents/react-generate-stateless-component';
+import generateAppCSS from '../../generateContents/react-generate-App-css';
+import generateAppTestJS from '../../generateContents/react-generate-app-test';
+import generateIndexCSS from '../../generateContents/react-generate-index-css';
+import generateReactIndexJS from '../../generateContents/react-generate-index';
+import generateLogoSVG from '../../generateContents/react-generate-logo-svg';
+import generateRegisterServiceWorker from '../../generateContents/react-generate-registerServiceWorker';
 import JSZip from 'jszip';
 
 const zip = new JSZip();
@@ -225,11 +230,24 @@ class ReactTree extends Component {
     let stateful = generateCode(version2);
     let stateless = generatePresentationalComponent(version2);
     let allComponents = {...stateful, ...stateless};
+    let App = allComponents['App'];
+    delete allComponents['App'];
     let fileNames = Object.keys(allComponents);
-    const html = generateIndexHTML();
-    zip.file('index.html', html, {base64: false});
+    const AppCSS = generateAppCSS();
+    const AppTest = generateAppTestJS();
+    const IndexCSS = generateIndexCSS();
+    const IndexJS = generateReactIndexJS();
+    const LogoSVG = generateLogoSVG();
+    const Worker = generateRegisterServiceWorker();
+    zip.folder('src').file('App.css', AppCSS, {base64: false});
+    zip.folder('src').file('App.test.js', AppTest, {base64: false});
+    zip.folder('src').file('index.css', IndexCSS, {base64: false});
+    zip.folder('src').file('index.js', IndexJS, {base64: false});
+    zip.folder('src').file('logo.svg', LogoSVG, {base64: false});
+    zip.folder('src').file('registerServiceWorker.js', Worker, {base64: false});
+    zip.folder('src').file('App.js', App, {base64: false});
     for (let i=0; i<fileNames.length;i++) {
-      zip.folder('components').file(fileNames[i] + '.js', allComponents[fileNames[i]], {base64: false})
+      zip.folder('src').folder('components').file(fileNames[i] + '.js', allComponents[fileNames[i]], {base64: false})
     }
       zip.generateAsync({type:"base64"}).then(function (base64) {
       location.href="data:application/zip;base64," + base64;
@@ -246,10 +264,7 @@ class ReactTree extends Component {
 
     const getNodeKey = ({ treeIndex }) => treeIndex;
     const flattenedArray = getFlatDataFromTree({treeData: this.state.treeData, getNodeKey});
-    console.table('dubovsky is...', flattenedArray);
     let isStateful = true;
-    console.log(this.state.version2)
-    console.log(flattenedArray)
     const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
       if (node.parent) {
         return false;
