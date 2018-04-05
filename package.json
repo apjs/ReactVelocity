@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --hot --host=0.0.0.0",
+    "test": "jest",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -15,14 +16,23 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.9",
+    "html-webpack-plugin": "^3.0.6",
     "jszip": "^3.1.5",
     "material-ui": "^0.20.0",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "normalize.css": "^8.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-ga": "^2.4.1",
+    "react-router-dom": "^4.2.2",
     "react-sortable-tree": "^2.0.1",
-    "react-timeout": "^1.1.1",
     "style-loader": "^0.20.2",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "jest": "^22.4.2"
   }
 }
