@@ -11,7 +11,10 @@ export default function generatePresentationalComponent(data) {
         code += "import React from 'react';\n"
         if (data[keys[i]]) {
           for (let k=0; k < data[keys[i]].length-1; k++) {
-            code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
+            if(data[keys[i]][k][0] === state) {
+            } else {
+              code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
+            }
           }
         }
         code += '\n';
@@ -20,7 +23,10 @@ export default function generatePresentationalComponent(data) {
         code += '      <div>\n';
         if (data[keys[i]]) {
           for (let j=0; j < data[keys[i]].length - 1; j++) {
-            code += `        <${data[keys[i]][j]} />\n`;
+            if(data[keys[i]][j][0] === state) {
+            } else {
+              code += `        <${data[keys[i]][j]} />\n`;
+            }
           }
         }
         code += '      </div>\n';

@@ -11,7 +11,10 @@ const generateCode = data => {
           if (keys[i] === 'App') {
             code += `import ${data[keys[i]][k]} from './components/${data[keys[i]][k]}';\n`;
           } else {
-            code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
+            if(data[keys[i]][k][0] === state) {
+            } else {
+              code += `import ${data[keys[i]][k]} from './${data[keys[i]][k]}';\n`;
+            }
           }
         }
       }
@@ -26,7 +29,10 @@ const generateCode = data => {
       code += '      <div>\n';
       if (data[keys[i]]) {
         for (let j=0; j < data[keys[i]].length - 1; j++) {
-          code += `        <${data[keys[i]][j]} />\n`;
+          if(data[keys[i]][j][0] === state) {
+          } else {
+            code += `        <${data[keys[i]][j]} />\n`;
+          }
         }
       }
       code += '      </div>\n';
