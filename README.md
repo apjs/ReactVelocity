@@ -16,7 +16,7 @@ To get started, you can either fork -> clone -> npm install -> npm start the pro
 
 ## Contributing
 
-Please submit issues/pull requests if you have feedback or message the React Velocity team to be added as a contributer: apjs.react.velocity@gmail.com
+Please submit issues/pull requests if you have feedback or message the React Velocity team to be added as a contributer: apjs.react.velocity@gmail.com and CC Paul (pauldubovsky@gmail.com) to the email.
 
 ## Authors
 
