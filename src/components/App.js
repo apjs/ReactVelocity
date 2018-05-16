@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ReactTree from './react-tree';
 import ReduxTree from './redux-tree';
 import ReactGA from 'react-ga';
+import NotFound from './NotFound';
 ReactGA.initialize('UA-116211451-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
           <div>
             <Route exact path='/' component={ReactTree} />
             <Route exact path='/redux' component={ReduxTree} />
+            <Route component={NotFound} />
           </div>
         </Router>
       )
