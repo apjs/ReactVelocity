@@ -1,3 +1,4 @@
+// Notes added for open source contributors 
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
