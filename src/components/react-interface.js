@@ -59,6 +59,14 @@ class ReactInterface extends Component {
         onClick={this.handleClose}
       />
     ];
+    const instructions = ['The component of ‘App’ is automatically generated, which may be used as the top-level parent component for your project.',
+'In order to add children components to ‘App’, you can click on the ‘Add Child’ button to the far right of the ‘App’ component.',
+'In case you delete the ‘App’ component, you can add another parent in the menu bar.',
+'To delete a component, click on the ‘X’ that appears to the right of the ‘Add Child’ button. Deleting a parent node will also delete all of its children.',
+'You may convert a stateless (or presentational) component to a stateful (or smart/class-based) component by toggling between the ‘stateless’ and ‘stateful’ buttons on the component.',
+'Once you are satisfied with the structure of your project, click on the download button located at the top-right corner of the screen to export your components.',
+'If you have any questions, please contact us at: apjs.react.velocity@gmail.com'
+];
     return (
       <div>
         <AppBar
@@ -140,19 +148,9 @@ class ReactInterface extends Component {
                 autoScrollBodyContent={true}
               >
                 <ul style={{color: white}}>
-                  <li>The component of ‘App’ is automatically generated, which may be used as the top-level parent component for your project.</li>
-                  <p></p>
-                  <li>In order to add children components to ‘App’, you can click on the ‘Add Child’ button to the far right of the ‘App’ component. </li>
-                  <p></p>
-                  <li>In case you delete the ‘App’ component, you can add another parent in the menu bar.</li>
-                  <p></p>
-                  <li>To delete a component, click on the ‘X’ that appears to the right of the ‘Add Child’ button. Deleting a parent node will also delete all of its children. </li>
-                  <p></p>
-                  <li>You may convert a stateless (or presentational) component to a stateful (or smart/class-based) component by toggling between the ‘stateless’ and ‘stateful’ buttons on the component. </li>
-                  <p></p>
-                  <li>Once you are satisfied with the structure of your project, click on the download button located at the top-right corner of the screen to export your components.</li>
-                  <p></p>
-                  <li>If you have any questions, please contact us at: apjs.react.velocity@gmail.com</li>
+                 {instructions.map(function(instruction){
+                   return<li>{instruction}</li>
+                 })}
                 </ul>
               </Dialog>
             </div>
