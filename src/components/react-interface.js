@@ -148,9 +148,8 @@ class ReactInterface extends Component {
                 autoScrollBodyContent={true}
               >
                 <ul style={{color: white}}>
-                 {instructions.map(function(instruction){
-                   return<li>{instruction}</li>
-                 })}
+                 {instructions.map((instruction) => <li>{instruction}</li>
+                 )}
                 </ul>
               </Dialog>
             </div>
