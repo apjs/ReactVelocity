@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardTitle} from 'material-ui/Card';
+import {Card, CardActions} from 'material-ui/Card';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
@@ -14,7 +13,7 @@ import Chip from 'material-ui/Chip';
 import FileDownload from 'material-ui/svg-icons/file/file-download';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Dialog from 'material-ui/Dialog';
-import {cyan200, cyan800, grey800, grey900, white} from 'material-ui/styles/colors';
+import {cyan200, cyan800, grey900, white} from 'material-ui/styles/colors';
 
 const styles = {
   chip: {
@@ -31,25 +30,17 @@ const iconStyles = {
 };
 
 class ReactInterface extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      drawerOpen: false,
-      dialogOpen: false,
-    };
-
-    this.handleToggle = this.handleToggle.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-  }
+  state = {
+    drawerOpen: false,
+    dialogOpen: false,
+  };
+  
   //Toggle = Drawer
-  handleToggle(){ this.setState({drawerOpen: !this.state.drawerOpen})};
+  handleToggle = () => { this.setState({drawerOpen: !this.state.drawerOpen})};
   //Change = Select Field
-  handleChange(event, index, value) {this.setState({value})};
-  handleOpen(){this.setState({dialogOpen: true});};
-  handleClose(){this.setState({dialogOpen: false});};
+  handleChange = (event, index, value) => {this.setState({value})};
+  handleOpen = () => {this.setState({dialogOpen: true});};
+  handleClose = () => {this.setState({dialogOpen: false});};
 
   render() {
     const actions = [

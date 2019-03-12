@@ -1,6 +1,7 @@
 'use strict';
 const htmlWebpackPlugin = require('html-webpack-plugin');
 
+
 const htmlWebpackConfig = new htmlWebpackPlugin({
   template: __dirname + '/index.html',
   filename: 'index.html',
@@ -29,10 +30,11 @@ module.exports = {
       },
     ]
   },
-  plugins: [ htmlWebpackConfig ],
+  plugins: [ htmlWebpackConfig],
   devServer: {
     inline: true,
     port: 8080,
+    contentBase: __dirname + '/build',
     historyApiFallback: {
       index: '/'
     }
